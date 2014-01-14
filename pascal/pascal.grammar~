@@ -1,0 +1,120 @@
+Package pascal;
+
+Helpers
+  a = ['a' + 'A'];
+  b = ['b' + 'B'];
+  d = ['d' + 'D'];
+  e = ['e' + 'E'];
+  g = ['g' + 'G'];
+  h = ['h' + 'H'];
+  i = ['i' + 'I'];
+  l = ['l' + 'L'];
+  m = ['m' + 'M'];
+  n = ['n' + 'N'];
+  o = ['o' + 'O'];
+  p = ['p' + 'P'];
+  r = ['r' + 'R'];
+  t = ['t' + 'T'];
+  v = ['v' + 'V'];
+  w = ['w' + 'W'];
+    
+  ascii_char = [32 .. 127] ;
+
+  letter = [['a' .. 'z'] + ['A' .. 'Z']];
+  digit = ['0' .. '9'] ;
+
+  whitespace = ' '| 9 | 13 | 10 ;
+
+Tokens
+  end = e n d ;
+  div = d i v ; 
+  var = v a r ;
+  begin = b e g i n ;
+  program = p r o g r a m ;
+  writeln = w r i t e l n ;
+  integer = i n t e g e r ; 
+
+  
+  plus = '+' ;
+  minus = '-' ;
+  mult = '*' ;
+  mod = '%';
+  assign = ':=' ;
+    
+  comma = ',' ;
+  colon = ':' ;
+  semicolon = ';' ;
+  dot = '.' ;
+  l_par = '(' ;
+  r_par = ')' ;
+
+  identifier = letter (letter | digit)* ;
+
+  number = digit+ ;
+
+  comment = '{' [ascii_char - ['{' + '}']]*
+            '}' ;
+
+  whitespace = whitespace;
+
+Ignored Tokens
+  comment, 
+  whitespace ;
+
+Productions
+
+  program_start =
+    program_header
+      declarations
+    body
+    dot ;
+
+  program_header =
+    program identifier semicolon ;
+
+
+  declarations = 
+    variables_declaration? ;
+
+  variables_declaration =
+    var variables_definition_list ;
+
+  variables_definition_list =
+    {single} variables_definition |
+    {multiple} variables_definition_list variables_definition ;
+
+  variables_definition =
+    identifier_list colon type semicolon ;
+
+  identifier_list =
+    {single} identifier |
+    {multiple} identifier_list comma identifier ;
+
+  type =
+    integer ;
+
+  body =
+    begin
+      statement_sequence
+    end ;
+
+  statement_sequence =
+    {single} statement |
+    {multiple} statement_sequence semicolon statement ;
+
+  statement =
+    {writeln} writeln l_par expr r_par |
+    {assignment} identifier assign expr |
+    {empty} ;
+
+ expr  = {plus} expr plus factor |
+         {minus} expr minus factor |
+         {factor} factor;
+    
+ factor = {mod} factor mod term |
+          {mult} factor mult term |
+          {div}  factor div term |
+          {term}term;
+          
+ term   = {number} number |{identifier} identifier | 
+          {expression}l_par expr r_par;

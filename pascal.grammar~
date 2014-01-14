@@ -1,0 +1,237 @@
+Package pascal;
+
+Helpers
+  a = ['a' + 'A'];
+  b = ['b' + 'B'];
+  d = ['d' + 'D'];
+  e = ['e' + 'E'];
+  f = ['f' + 'F'];
+  g = ['g' + 'G'];
+  h = ['h' + 'H'];
+  i = ['i' + 'I'];
+  k = ['k' + 'K'];
+  l = ['l' + 'L'];
+  m = ['m' + 'M'];
+  n = ['n' + 'N'];
+  o = ['o' + 'O'];
+  p = ['p' + 'P'];
+  r = ['r' + 'R'];
+  s = ['s' + 'S'];
+  t = ['t' + 'T'];
+  u = ['u' + 'U'];
+  v = ['v' + 'V'];
+  w = ['w' + 'W'];
+  x = ['x' + 'X'];
+    
+  ascii_char = [32 .. 127] ;
+
+  letter = [['a' .. 'z'] + ['A' .. 'Z']];
+  digit = ['0' .. '9'] ;
+
+  whitespace = ' '|9 | 13 | 10 ;
+
+Tokens
+  end = e n d ;
+  div = d i v ; 
+  var = v a r ;
+  begin = b e g i n ;
+  program = p r o g r a m ;
+  writeln = w r i t e l n ;
+  integer = i n t e g e r ;
+  boolean = b o o l e a n ;
+  true = t r u e ;
+  false = f a l s e ;
+  if = i f ;
+  while = w h i l e ;
+  break = b r e a k ;
+  do = d o ; 
+  then = t h e n ;
+  else = e l s e ;
+  and = a n d ;
+  or = o r ;
+  xor = x o r ;
+  not = n o t ;
+  
+  plus = '+' ;
+  minus = '-' ;
+  mult = '*' ;
+  mod = '%';
+  assign = ':=' ;
+  equal = '=' ;
+  less = '<' ;
+  greater = '>' ;
+  less_eq = '<=' ;
+  greater_eq = '>=' ;
+  unequal = '<>' ;
+
+
+  
+  comma = ',' ;
+  colon = ':' ;
+  semicolon = ';' ;
+  dot = '.' ;
+  l_par = '(' ;
+  r_par = ')' ;
+
+  identifier = letter (letter | digit)* ;
+
+  number = digit+ ;
+
+  comment = '{' [ascii_char - ['{' + '}']]*
+            '}' ;
+
+  whitespace = whitespace;
+
+Ignored Tokens
+  comment, 
+  whitespace ;
+
+Productions
+
+  program_start {-> ast} = [left]:program_header [m]:declarations [right]:body dot {-> New ast.program_start(left.ast, [m.ast], right.ast)};
+
+  program_header {-> ast}=
+    program identifier semicolon {-> New ast.identifier(identifier)};
+
+  declarations{-> ast} = 
+    variables_declaration {-> variables_declaration.ast} |
+    {empty} {-> New ast.empty_declarations()};
+
+  variables_declaration{-> ast} =
+    {single} var variables_definition semicolon {-> variables_definition.ast} |
+    {multiple} var variables_definition semicolon variables_declaration {-> variables_definition.ast} ;
+
+/*
+  variables_definition_list{-> ast} =
+    {single} variables_definition {-> variables_definition.ast}|
+    {multiple} variables_definition_list variables_definition {-> New ast.variables_definition_list(variables_definition_list.ast , variables_definition.ast)};
+*/
+
+  variables_definition{-> ast} =
+    identifier colon type {->New ast.variables_definition(identifier, type.ast)};
+
+
+  type{-> ast} =
+    integer {->New ast.integer(integer)} /*| boolean {->New ast.boolean(boolean)}*/ ;
+
+  body{-> ast} =
+    begin
+      statement_sequence
+    end {->New ast.body(statement_sequence.ast)};
+
+  statement_sequence{-> ast} =
+    {single}   statement {->statement.ast}|
+    {multiple} statement_sequence semicolon statement {->New ast.statement_sequence(statement_sequence.ast, statement.ast)};
+
+  statement{-> ast} = {open} open_statement {-> open_statement.ast}| 
+		      {closed} closed_statement {-> closed_statement.ast};
+
+  open_statement{-> ast} = {open_if} open_if_statement {->New ast.open_statement(open_if_statement.ast)}| 
+			   {open_while} open_while_statement {->New ast.open_statement(open_while_statement.ast)};
+
+  closed_statement{-> ast} = {simple} simple_statement {->New ast.closed_statement(simple_statement.ast)}| 
+			     {closed_if} closed_if_statement {->New ast.closed_statement(closed_if_statement.ast)}| 
+			     {closed_while} closed_while_statement {->New ast.closed_statement(closed_while_statement.ast)};
+
+  open_if_statement{-> ast} = {open_if} if expr_top then statement {->New ast.open_if_statement(expr_top.ast, statement.ast)}|
+			      {open_if_else} if expr_top then closed_statement else open_statement {->New ast.open_if_else_statement(expr_top.ast, closed_statement.ast, open_statement.ast)};
+
+  closed_if_statement{-> ast} = if expr_top then [do]:closed_statement else [do_else]:closed_statement {->New ast.closed_if_statement(expr_top.ast, do.ast, do_else.ast)};
+
+  open_while_statement{-> ast} = {while_o} while expr_top do open_statement {->New ast.open_while_statement(expr_top.ast, open_statement.ast)};
+  
+  closed_while_statement{-> ast} = {while_c} while expr_top do closed_statement {->New ast.closed_while_statement(expr_top.ast, closed_statement.ast)};
+
+  simple_statement{-> ast} = 
+    {writeln} writeln l_par expr_top r_par {->New ast.writeln(expr_top.ast)}|
+    {assignment} identifier assign expr_top {->New ast.assignment(identifier, expr_top.ast)}|
+    {block} begin statement_sequence end {->New ast.block(statement_sequence.ast)}|
+    {empty} {->New ast.empty()};	
+
+  if_statement{-> ast} = {if_then} if expr_top then {->New ast.if_statement(expr_top.ast)};
+
+  compare{-> ast} = {equal} equal {->New ast.equal(equal)}| 
+		    {less} less {->New ast.less(less)}| 
+		    {greater} greater {->New ast.greater(greater)}| 
+		    {greater_eq} greater_eq {->New ast.greater_eq(greater_eq)}|
+		    {less_eq} less_eq {->New ast.less_eq(less_eq)}|
+		    {unequal} unequal {->New ast.unequal(unequal)};
+
+  expr_top{-> ast} = 
+	     {single} expr {-> expr.ast} |
+	     {comparison} expr compare expr_top {->New ast.expr_top(expr_top.ast, expr.ast)}; 
+
+  expr{-> ast}  = {or} expr or factor {->New ast.or(expr.ast, factor.ast)}| 
+	  {xor} expr xor factor {->New ast.xor(expr.ast, factor.ast)}| 
+	  {plus} expr plus factor {->New ast.plus(expr.ast, factor.ast)}| 
+	  {minus} expr minus factor {->New ast.minus(expr.ast, factor.ast)}| 
+	  {factor} factor {-> factor.ast};
+    
+  factor{-> ast} = {and} factor and term {->New ast.and(factor.ast, term.ast)}| 
+	   {mod} factor mod term {->New ast.mod(factor.ast, term.ast)}|
+           {mult} factor mult term {->New ast.mult(factor.ast, term.ast)}|
+           {div} factor div term {->New ast.div(factor.ast, term.ast)}|
+           {term} term {-> term.ast};
+          
+  term{-> ast}   = {not} not term {->New ast.not(term.ast)}|  
+ 	   {number} number {->New ast.number(number)}|
+ 	   {identifier} identifier {->New ast.identifier(identifier)}|
+	   {true} true {->New ast.true(true)}|
+	   {false} false {->New ast.false(false)}| 
+ 	   {unaryminus_identifier} minus term {->New ast.un_minus(term.ast)}|
+	   {unaryplus_identifier} plus term {->New ast.un_plus(term.ast)}|
+	   {braces} l_par expr_top r_par {-> expr_top.ast} |
+	   {break} break {-> New ast.break(break)};
+
+
+Abstract Syntax Tree
+
+  ast = {program_start} [left]:ast  [m]:ast* [right]:ast |
+	{program_header} identifier |
+	{declarations} ast |
+	{empty_declarations} |
+	{variables_definition_list} [variables_definition_list]:ast [variables_definition]:ast |
+	{variables_definition} identifier ast |
+	{integer} integer |
+	{boolean} boolean |
+	{body} ast |
+	{statement_sequence} [statement_sequence]:ast [statement]:ast |
+	{statement} ast |
+	/*{open_statement} ast |
+	{closed_statement} ast |*/
+	{open_if_statement} [expr_top]:ast [open_statement]:ast |
+	{open_if_else_statement} [expr_top]:ast [open_statement]:ast [closed_statement]:ast |
+	{closed_if_statement} [expr_top]:ast [do]:ast [else]:ast |
+	{open_while_statement} [expr_top]:ast [open_statement]:ast |
+	{closed_while_statement} [expr_top]:ast [closed_statement]:ast |
+	{simple_statement} ast |
+	{writeln} ast |
+	{assignment} identifier ast |
+	{block} ast |
+	{empty} |
+	{if_statement} ast |
+	{equal} equal |
+	{less} less |
+	{greater} greater |
+	{greater_eq} greater_eq |
+	{less_eq} less_eq |
+	{unequal} unequal |
+	{expr_top} [expr_top]:ast [expr]:ast |
+	{or} [expr]:ast [factor]:ast |
+	{xor} [expr]:ast [factor]:ast |
+	{plus} [expr]:ast [factor]:ast |
+	{minus} [expr]:ast [factor]:ast |
+	{and} [factor]:ast [term]:ast |
+	{mod} [factor]:ast [term]:ast |
+	{mult} [factor]:ast [term]:ast |
+	{div} [factor]:ast [term]:ast |
+	{not} ast |
+	{number} number |
+	{identifier} identifier |
+	{true} true |
+	{false} false |
+	{un_minus} ast |
+	{un_plus} ast |
+	{break} break ;
+
+

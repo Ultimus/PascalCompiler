@@ -101,11 +101,11 @@ Productions
     {single} var variables_definition semicolon {-> variables_definition.ast} |
     {multiple} var variables_definition semicolon variables_declaration {-> variables_definition.ast} ;
 
-/*
+  hier steht böädsinn
   variables_definition_list{-> ast} =
     {single} variables_definition {-> variables_definition.ast}|
     {multiple} variables_definition_list variables_definition {-> New ast.variables_definition_list(variables_definition_list.ast , variables_definition.ast)};
-*/
+
 
   variables_definition{-> ast} =
     identifier colon type {->New ast.variables_definition(identifier, type.ast)};
@@ -190,20 +190,20 @@ Abstract Syntax Tree
 	{program_header} identifier |
 	{declarations} ast |
 	{empty_declarations} |
-	{variables_definition_list} [variables_definition_list]:ast [variables_definition]:ast |
+	{variables_definition_list} [left]:ast [right]:ast |  /* variables_definition_list variables definition */
 	{variables_definition} identifier ast |
 	{integer} integer |
 	{boolean} boolean |
 	{body} ast |
-	{statement_sequence} [statement_sequence]:ast [statement]:ast |
+	{statement_sequence} [left]:ast [right]:ast | /*statement_sequence  statement*/
 	{statement} ast |
-	/*{open_statement} ast |
-	{closed_statement} ast |*/
-	{open_if_statement} [expr_top]:ast [open_statement]:ast |
-	{open_if_else_statement} [expr_top]:ast [open_statement]:ast [closed_statement]:ast |
-	{closed_if_statement} [expr_top]:ast [do]:ast [else]:ast |
-	{open_while_statement} [expr_top]:ast [open_statement]:ast |
-	{closed_while_statement} [expr_top]:ast [closed_statement]:ast |
+	{open_statement} ast |
+	{closed_statement} ast |
+	{open_if_statement} [left]:ast [right]:ast |  /*expr_top    open_statement*/
+	{open_if_else_statement} [left]:ast [mid]:ast [right]:ast |  /*expr_top open_statement closed_statement*/
+	{closed_if_statement} [left]:ast [mid]:ast [right]:ast |   /*expr_top then  else */
+	{open_while_statement} [left]:ast [right]:ast | /*expr_top open_statement */
+	{closed_while_statement} [left]:ast [right]:ast | /*expr_top closed_statement */
 	{simple_statement} ast |
 	{writeln} ast |
 	{assignment} identifier ast |
@@ -216,15 +216,15 @@ Abstract Syntax Tree
 	{greater_eq} greater_eq |
 	{less_eq} less_eq |
 	{unequal} unequal |
-	{expr_top} [expr_top]:ast [expr]:ast |
-	{or} [expr]:ast [factor]:ast |
-	{xor} [expr]:ast [factor]:ast |
-	{plus} [expr]:ast [factor]:ast |
-	{minus} [expr]:ast [factor]:ast |
-	{and} [factor]:ast [term]:ast |
-	{mod} [factor]:ast [term]:ast |
-	{mult} [factor]:ast [term]:ast |
-	{div} [factor]:ast [term]:ast |
+	{expr_top} [left]:ast [right]:ast |   /*expr_top expr*/
+	{or} [left]:ast [right]:ast |  /*expr factor */
+	{xor} [left]:ast [right]:ast |
+	{plus} [left]:ast [right]:ast |
+	{minus} [left]:ast [right]:ast |
+	{and} [left]:ast [right]:ast |  /*factor term */
+	{mod} [left]:ast [right]:ast |
+	{mult} [left]:ast [right]:ast |
+	{div} [left]:ast [right]:ast |
 	{not} ast |
 	{number} number |
 	{identifier} identifier |

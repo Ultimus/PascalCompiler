@@ -7,8 +7,8 @@ import pascal.analysis.*;
 @SuppressWarnings("nls")
 public final class AStatementSequenceAst extends PAst
 {
-    private PAst _statementSequence_;
-    private PAst _statement_;
+    private PAst _left_;
+    private PAst _right_;
 
     public AStatementSequenceAst()
     {
@@ -16,13 +16,13 @@ public final class AStatementSequenceAst extends PAst
     }
 
     public AStatementSequenceAst(
-        @SuppressWarnings("hiding") PAst _statementSequence_,
-        @SuppressWarnings("hiding") PAst _statement_)
+        @SuppressWarnings("hiding") PAst _left_,
+        @SuppressWarnings("hiding") PAst _right_)
     {
         // Constructor
-        setStatementSequence(_statementSequence_);
+        setLeft(_left_);
 
-        setStatement(_statement_);
+        setRight(_right_);
 
     }
 
@@ -30,8 +30,8 @@ public final class AStatementSequenceAst extends PAst
     public Object clone()
     {
         return new AStatementSequenceAst(
-            cloneNode(this._statementSequence_),
-            cloneNode(this._statement_));
+            cloneNode(this._left_),
+            cloneNode(this._right_));
     }
 
     @Override
@@ -40,16 +40,16 @@ public final class AStatementSequenceAst extends PAst
         ((Analysis) sw).caseAStatementSequenceAst(this);
     }
 
-    public PAst getStatementSequence()
+    public PAst getLeft()
     {
-        return this._statementSequence_;
+        return this._left_;
     }
 
-    public void setStatementSequence(PAst node)
+    public void setLeft(PAst node)
     {
-        if(this._statementSequence_ != null)
+        if(this._left_ != null)
         {
-            this._statementSequence_.parent(null);
+            this._left_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class AStatementSequenceAst extends PAst
             node.parent(this);
         }
 
-        this._statementSequence_ = node;
+        this._left_ = node;
     }
 
-    public PAst getStatement()
+    public PAst getRight()
     {
-        return this._statement_;
+        return this._right_;
     }
 
-    public void setStatement(PAst node)
+    public void setRight(PAst node)
     {
-        if(this._statement_ != null)
+        if(this._right_ != null)
         {
-            this._statement_.parent(null);
+            this._right_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class AStatementSequenceAst extends PAst
             node.parent(this);
         }
 
-        this._statement_ = node;
+        this._right_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._statementSequence_)
-            + toString(this._statement_);
+            + toString(this._left_)
+            + toString(this._right_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._statementSequence_ == child)
+        if(this._left_ == child)
         {
-            this._statementSequence_ = null;
+            this._left_ = null;
             return;
         }
 
-        if(this._statement_ == child)
+        if(this._right_ == child)
         {
-            this._statement_ = null;
+            this._right_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class AStatementSequenceAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._statementSequence_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setStatementSequence((PAst) newChild);
+            setLeft((PAst) newChild);
             return;
         }
 
-        if(this._statement_ == oldChild)
+        if(this._right_ == oldChild)
         {
-            setStatement((PAst) newChild);
+            setRight((PAst) newChild);
             return;
         }
 

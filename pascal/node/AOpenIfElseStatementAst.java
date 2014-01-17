@@ -7,9 +7,9 @@ import pascal.analysis.*;
 @SuppressWarnings("nls")
 public final class AOpenIfElseStatementAst extends PAst
 {
-    private PAst _exprTop_;
-    private PAst _openStatement_;
-    private PAst _closedStatement_;
+    private PAst _left_;
+    private PAst _mid_;
+    private PAst _right_;
 
     public AOpenIfElseStatementAst()
     {
@@ -17,16 +17,16 @@ public final class AOpenIfElseStatementAst extends PAst
     }
 
     public AOpenIfElseStatementAst(
-        @SuppressWarnings("hiding") PAst _exprTop_,
-        @SuppressWarnings("hiding") PAst _openStatement_,
-        @SuppressWarnings("hiding") PAst _closedStatement_)
+        @SuppressWarnings("hiding") PAst _left_,
+        @SuppressWarnings("hiding") PAst _mid_,
+        @SuppressWarnings("hiding") PAst _right_)
     {
         // Constructor
-        setExprTop(_exprTop_);
+        setLeft(_left_);
 
-        setOpenStatement(_openStatement_);
+        setMid(_mid_);
 
-        setClosedStatement(_closedStatement_);
+        setRight(_right_);
 
     }
 
@@ -34,9 +34,9 @@ public final class AOpenIfElseStatementAst extends PAst
     public Object clone()
     {
         return new AOpenIfElseStatementAst(
-            cloneNode(this._exprTop_),
-            cloneNode(this._openStatement_),
-            cloneNode(this._closedStatement_));
+            cloneNode(this._left_),
+            cloneNode(this._mid_),
+            cloneNode(this._right_));
     }
 
     @Override
@@ -45,16 +45,16 @@ public final class AOpenIfElseStatementAst extends PAst
         ((Analysis) sw).caseAOpenIfElseStatementAst(this);
     }
 
-    public PAst getExprTop()
+    public PAst getLeft()
     {
-        return this._exprTop_;
+        return this._left_;
     }
 
-    public void setExprTop(PAst node)
+    public void setLeft(PAst node)
     {
-        if(this._exprTop_ != null)
+        if(this._left_ != null)
         {
-            this._exprTop_.parent(null);
+            this._left_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +67,19 @@ public final class AOpenIfElseStatementAst extends PAst
             node.parent(this);
         }
 
-        this._exprTop_ = node;
+        this._left_ = node;
     }
 
-    public PAst getOpenStatement()
+    public PAst getMid()
     {
-        return this._openStatement_;
+        return this._mid_;
     }
 
-    public void setOpenStatement(PAst node)
+    public void setMid(PAst node)
     {
-        if(this._openStatement_ != null)
+        if(this._mid_ != null)
         {
-            this._openStatement_.parent(null);
+            this._mid_.parent(null);
         }
 
         if(node != null)
@@ -92,19 +92,19 @@ public final class AOpenIfElseStatementAst extends PAst
             node.parent(this);
         }
 
-        this._openStatement_ = node;
+        this._mid_ = node;
     }
 
-    public PAst getClosedStatement()
+    public PAst getRight()
     {
-        return this._closedStatement_;
+        return this._right_;
     }
 
-    public void setClosedStatement(PAst node)
+    public void setRight(PAst node)
     {
-        if(this._closedStatement_ != null)
+        if(this._right_ != null)
         {
-            this._closedStatement_.parent(null);
+            this._right_.parent(null);
         }
 
         if(node != null)
@@ -117,37 +117,37 @@ public final class AOpenIfElseStatementAst extends PAst
             node.parent(this);
         }
 
-        this._closedStatement_ = node;
+        this._right_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._exprTop_)
-            + toString(this._openStatement_)
-            + toString(this._closedStatement_);
+            + toString(this._left_)
+            + toString(this._mid_)
+            + toString(this._right_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._exprTop_ == child)
+        if(this._left_ == child)
         {
-            this._exprTop_ = null;
+            this._left_ = null;
             return;
         }
 
-        if(this._openStatement_ == child)
+        if(this._mid_ == child)
         {
-            this._openStatement_ = null;
+            this._mid_ = null;
             return;
         }
 
-        if(this._closedStatement_ == child)
+        if(this._right_ == child)
         {
-            this._closedStatement_ = null;
+            this._right_ = null;
             return;
         }
 
@@ -158,21 +158,21 @@ public final class AOpenIfElseStatementAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._exprTop_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setExprTop((PAst) newChild);
+            setLeft((PAst) newChild);
             return;
         }
 
-        if(this._openStatement_ == oldChild)
+        if(this._mid_ == oldChild)
         {
-            setOpenStatement((PAst) newChild);
+            setMid((PAst) newChild);
             return;
         }
 
-        if(this._closedStatement_ == oldChild)
+        if(this._right_ == oldChild)
         {
-            setClosedStatement((PAst) newChild);
+            setRight((PAst) newChild);
             return;
         }
 

@@ -7,8 +7,8 @@ import pascal.analysis.*;
 @SuppressWarnings("nls")
 public final class AVariablesDefinitionListAst extends PAst
 {
-    private PAst _variablesDefinitionList_;
-    private PAst _variablesDefinition_;
+    private PAst _left_;
+    private PAst _right_;
 
     public AVariablesDefinitionListAst()
     {
@@ -16,13 +16,13 @@ public final class AVariablesDefinitionListAst extends PAst
     }
 
     public AVariablesDefinitionListAst(
-        @SuppressWarnings("hiding") PAst _variablesDefinitionList_,
-        @SuppressWarnings("hiding") PAst _variablesDefinition_)
+        @SuppressWarnings("hiding") PAst _left_,
+        @SuppressWarnings("hiding") PAst _right_)
     {
         // Constructor
-        setVariablesDefinitionList(_variablesDefinitionList_);
+        setLeft(_left_);
 
-        setVariablesDefinition(_variablesDefinition_);
+        setRight(_right_);
 
     }
 
@@ -30,8 +30,8 @@ public final class AVariablesDefinitionListAst extends PAst
     public Object clone()
     {
         return new AVariablesDefinitionListAst(
-            cloneNode(this._variablesDefinitionList_),
-            cloneNode(this._variablesDefinition_));
+            cloneNode(this._left_),
+            cloneNode(this._right_));
     }
 
     @Override
@@ -40,16 +40,16 @@ public final class AVariablesDefinitionListAst extends PAst
         ((Analysis) sw).caseAVariablesDefinitionListAst(this);
     }
 
-    public PAst getVariablesDefinitionList()
+    public PAst getLeft()
     {
-        return this._variablesDefinitionList_;
+        return this._left_;
     }
 
-    public void setVariablesDefinitionList(PAst node)
+    public void setLeft(PAst node)
     {
-        if(this._variablesDefinitionList_ != null)
+        if(this._left_ != null)
         {
-            this._variablesDefinitionList_.parent(null);
+            this._left_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class AVariablesDefinitionListAst extends PAst
             node.parent(this);
         }
 
-        this._variablesDefinitionList_ = node;
+        this._left_ = node;
     }
 
-    public PAst getVariablesDefinition()
+    public PAst getRight()
     {
-        return this._variablesDefinition_;
+        return this._right_;
     }
 
-    public void setVariablesDefinition(PAst node)
+    public void setRight(PAst node)
     {
-        if(this._variablesDefinition_ != null)
+        if(this._right_ != null)
         {
-            this._variablesDefinition_.parent(null);
+            this._right_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class AVariablesDefinitionListAst extends PAst
             node.parent(this);
         }
 
-        this._variablesDefinition_ = node;
+        this._right_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._variablesDefinitionList_)
-            + toString(this._variablesDefinition_);
+            + toString(this._left_)
+            + toString(this._right_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._variablesDefinitionList_ == child)
+        if(this._left_ == child)
         {
-            this._variablesDefinitionList_ = null;
+            this._left_ = null;
             return;
         }
 
-        if(this._variablesDefinition_ == child)
+        if(this._right_ == child)
         {
-            this._variablesDefinition_ = null;
+            this._right_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class AVariablesDefinitionListAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._variablesDefinitionList_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setVariablesDefinitionList((PAst) newChild);
+            setLeft((PAst) newChild);
             return;
         }
 
-        if(this._variablesDefinition_ == oldChild)
+        if(this._right_ == oldChild)
         {
-            setVariablesDefinition((PAst) newChild);
+            setRight((PAst) newChild);
             return;
         }
 

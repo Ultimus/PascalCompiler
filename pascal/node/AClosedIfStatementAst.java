@@ -7,9 +7,9 @@ import pascal.analysis.*;
 @SuppressWarnings("nls")
 public final class AClosedIfStatementAst extends PAst
 {
-    private PAst _exprTop_;
-    private PAst _do_;
-    private PAst _else_;
+    private PAst _left_;
+    private PAst _mid_;
+    private PAst _right_;
 
     public AClosedIfStatementAst()
     {
@@ -17,16 +17,16 @@ public final class AClosedIfStatementAst extends PAst
     }
 
     public AClosedIfStatementAst(
-        @SuppressWarnings("hiding") PAst _exprTop_,
-        @SuppressWarnings("hiding") PAst _do_,
-        @SuppressWarnings("hiding") PAst _else_)
+        @SuppressWarnings("hiding") PAst _left_,
+        @SuppressWarnings("hiding") PAst _mid_,
+        @SuppressWarnings("hiding") PAst _right_)
     {
         // Constructor
-        setExprTop(_exprTop_);
+        setLeft(_left_);
 
-        setDo(_do_);
+        setMid(_mid_);
 
-        setElse(_else_);
+        setRight(_right_);
 
     }
 
@@ -34,9 +34,9 @@ public final class AClosedIfStatementAst extends PAst
     public Object clone()
     {
         return new AClosedIfStatementAst(
-            cloneNode(this._exprTop_),
-            cloneNode(this._do_),
-            cloneNode(this._else_));
+            cloneNode(this._left_),
+            cloneNode(this._mid_),
+            cloneNode(this._right_));
     }
 
     @Override
@@ -45,16 +45,16 @@ public final class AClosedIfStatementAst extends PAst
         ((Analysis) sw).caseAClosedIfStatementAst(this);
     }
 
-    public PAst getExprTop()
+    public PAst getLeft()
     {
-        return this._exprTop_;
+        return this._left_;
     }
 
-    public void setExprTop(PAst node)
+    public void setLeft(PAst node)
     {
-        if(this._exprTop_ != null)
+        if(this._left_ != null)
         {
-            this._exprTop_.parent(null);
+            this._left_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +67,19 @@ public final class AClosedIfStatementAst extends PAst
             node.parent(this);
         }
 
-        this._exprTop_ = node;
+        this._left_ = node;
     }
 
-    public PAst getDo()
+    public PAst getMid()
     {
-        return this._do_;
+        return this._mid_;
     }
 
-    public void setDo(PAst node)
+    public void setMid(PAst node)
     {
-        if(this._do_ != null)
+        if(this._mid_ != null)
         {
-            this._do_.parent(null);
+            this._mid_.parent(null);
         }
 
         if(node != null)
@@ -92,19 +92,19 @@ public final class AClosedIfStatementAst extends PAst
             node.parent(this);
         }
 
-        this._do_ = node;
+        this._mid_ = node;
     }
 
-    public PAst getElse()
+    public PAst getRight()
     {
-        return this._else_;
+        return this._right_;
     }
 
-    public void setElse(PAst node)
+    public void setRight(PAst node)
     {
-        if(this._else_ != null)
+        if(this._right_ != null)
         {
-            this._else_.parent(null);
+            this._right_.parent(null);
         }
 
         if(node != null)
@@ -117,37 +117,37 @@ public final class AClosedIfStatementAst extends PAst
             node.parent(this);
         }
 
-        this._else_ = node;
+        this._right_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._exprTop_)
-            + toString(this._do_)
-            + toString(this._else_);
+            + toString(this._left_)
+            + toString(this._mid_)
+            + toString(this._right_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._exprTop_ == child)
+        if(this._left_ == child)
         {
-            this._exprTop_ = null;
+            this._left_ = null;
             return;
         }
 
-        if(this._do_ == child)
+        if(this._mid_ == child)
         {
-            this._do_ = null;
+            this._mid_ = null;
             return;
         }
 
-        if(this._else_ == child)
+        if(this._right_ == child)
         {
-            this._else_ = null;
+            this._right_ = null;
             return;
         }
 
@@ -158,21 +158,21 @@ public final class AClosedIfStatementAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._exprTop_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setExprTop((PAst) newChild);
+            setLeft((PAst) newChild);
             return;
         }
 
-        if(this._do_ == oldChild)
+        if(this._mid_ == oldChild)
         {
-            setDo((PAst) newChild);
+            setMid((PAst) newChild);
             return;
         }
 
-        if(this._else_ == oldChild)
+        if(this._right_ == oldChild)
         {
-            setElse((PAst) newChild);
+            setRight((PAst) newChild);
             return;
         }
 

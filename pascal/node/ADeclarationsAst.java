@@ -8,8 +8,6 @@ import pascal.analysis.*;
 public final class ADeclarationsAst extends PAst
 {
     private PAst _ast_;
-    private PAst _left_;
-    private PAst _right_;
 
     public ADeclarationsAst()
     {
@@ -17,21 +15,18 @@ public final class ADeclarationsAst extends PAst
     }
 
     public ADeclarationsAst(
-        @SuppressWarnings("hiding") PAst _left_,
-        @SuppressWarnings("hiding") PAst _right_)
+        @SuppressWarnings("hiding") PAst _ast_)
     {
         // Constructor
-        setLeft(_left_);
-        setRight(_right_);
+        setAst(_ast_);
 
     }
-
-
 
     @Override
     public Object clone()
     {
-        return new ADeclarationsAst(cloneNode(this._left_), cloneNode(this._right_));
+        return new ADeclarationsAst(
+            cloneNode(this._ast_));
     }
 
     @Override
@@ -40,24 +35,16 @@ public final class ADeclarationsAst extends PAst
         ((Analysis) sw).caseADeclarationsAst(this);
     }
 
-    public PAst getLeft()
+    public PAst getAst()
     {
-        return this._left_;
+        return this._ast_;
     }
 
-    public PAst getRight(){
-
-        return this._right_;
-    }
-
-
-
-
-    public void setLeft(PAst node)
+    public void setAst(PAst node)
     {
-        if(this._left_ != null)
+        if(this._ast_ != null)
         {
-            this._left_.parent(null);
+            this._ast_.parent(null);
         }
 
         if(node != null)
@@ -70,33 +57,10 @@ public final class ADeclarationsAst extends PAst
             node.parent(this);
         }
 
-        this._left_ = node;
+        this._ast_ = node;
     }
 
-
-    public void setRight(PAst node)
-    {
-        if(this._right_ != null)
-        {
-            this._right_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._right_ = node;
-    }
-
-
-
-        @Override
+    @Override
     public String toString()
     {
         return ""
@@ -120,17 +84,10 @@ public final class ADeclarationsAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._left_ == oldChild)
+        if(this._ast_ == oldChild)
         {
-            setLeft((PAst) newChild);
+            setAst((PAst) newChild);
             return;
-        }
-        if(this._right_ == oldChild)
-        {
-            setRight((PAst) newChild);
-            return;
-           
-
         }
 
         throw new RuntimeException("Not a child.");

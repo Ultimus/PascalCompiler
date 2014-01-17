@@ -141,13 +141,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAVariablesDefinitionListAst(AVariablesDefinitionListAst node)
     {
         inAVariablesDefinitionListAst(node);
-        if(node.getVariablesDefinitionList() != null)
+        if(node.getLeft() != null)
         {
-            node.getVariablesDefinitionList().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getVariablesDefinition() != null)
+        if(node.getRight() != null)
         {
-            node.getVariablesDefinition().apply(this);
+            node.getRight().apply(this);
         }
         outAVariablesDefinitionListAst(node);
     }
@@ -254,13 +254,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAStatementSequenceAst(AStatementSequenceAst node)
     {
         inAStatementSequenceAst(node);
-        if(node.getStatementSequence() != null)
+        if(node.getLeft() != null)
         {
-            node.getStatementSequence().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getStatement() != null)
+        if(node.getRight() != null)
         {
-            node.getStatement().apply(this);
+            node.getRight().apply(this);
         }
         outAStatementSequenceAst(node);
     }
@@ -342,13 +342,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAOpenIfStatementAst(AOpenIfStatementAst node)
     {
         inAOpenIfStatementAst(node);
-        if(node.getExprTop() != null)
+        if(node.getLeft() != null)
         {
-            node.getExprTop().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getOpenStatement() != null)
+        if(node.getRight() != null)
         {
-            node.getOpenStatement().apply(this);
+            node.getRight().apply(this);
         }
         outAOpenIfStatementAst(node);
     }
@@ -367,17 +367,17 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAOpenIfElseStatementAst(AOpenIfElseStatementAst node)
     {
         inAOpenIfElseStatementAst(node);
-        if(node.getExprTop() != null)
+        if(node.getLeft() != null)
         {
-            node.getExprTop().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getOpenStatement() != null)
+        if(node.getMid() != null)
         {
-            node.getOpenStatement().apply(this);
+            node.getMid().apply(this);
         }
-        if(node.getClosedStatement() != null)
+        if(node.getRight() != null)
         {
-            node.getClosedStatement().apply(this);
+            node.getRight().apply(this);
         }
         outAOpenIfElseStatementAst(node);
     }
@@ -396,17 +396,17 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAClosedIfStatementAst(AClosedIfStatementAst node)
     {
         inAClosedIfStatementAst(node);
-        if(node.getExprTop() != null)
+        if(node.getLeft() != null)
         {
-            node.getExprTop().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getDo() != null)
+        if(node.getMid() != null)
         {
-            node.getDo().apply(this);
+            node.getMid().apply(this);
         }
-        if(node.getElse() != null)
+        if(node.getRight() != null)
         {
-            node.getElse().apply(this);
+            node.getRight().apply(this);
         }
         outAClosedIfStatementAst(node);
     }
@@ -425,13 +425,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAOpenWhileStatementAst(AOpenWhileStatementAst node)
     {
         inAOpenWhileStatementAst(node);
-        if(node.getExprTop() != null)
+        if(node.getLeft() != null)
         {
-            node.getExprTop().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getOpenStatement() != null)
+        if(node.getRight() != null)
         {
-            node.getOpenStatement().apply(this);
+            node.getRight().apply(this);
         }
         outAOpenWhileStatementAst(node);
     }
@@ -450,13 +450,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAClosedWhileStatementAst(AClosedWhileStatementAst node)
     {
         inAClosedWhileStatementAst(node);
-        if(node.getExprTop() != null)
+        if(node.getLeft() != null)
         {
-            node.getExprTop().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getClosedStatement() != null)
+        if(node.getRight() != null)
         {
-            node.getClosedStatement().apply(this);
+            node.getRight().apply(this);
         }
         outAClosedWhileStatementAst(node);
     }
@@ -727,13 +727,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAExprTopAst(AExprTopAst node)
     {
         inAExprTopAst(node);
-        if(node.getExprTop() != null)
+        if(node.getLeft() != null)
         {
-            node.getExprTop().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getExpr() != null)
+        if(node.getRight() != null)
         {
-            node.getExpr().apply(this);
+            node.getRight().apply(this);
         }
         outAExprTopAst(node);
     }
@@ -752,13 +752,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAOrAst(AOrAst node)
     {
         inAOrAst(node);
-        if(node.getExpr() != null)
+        if(node.getLeft() != null)
         {
-            node.getExpr().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getFactor() != null)
+        if(node.getRight() != null)
         {
-            node.getFactor().apply(this);
+            node.getRight().apply(this);
         }
         outAOrAst(node);
     }
@@ -777,13 +777,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAXorAst(AXorAst node)
     {
         inAXorAst(node);
-        if(node.getExpr() != null)
+        if(node.getLeft() != null)
         {
-            node.getExpr().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getFactor() != null)
+        if(node.getRight() != null)
         {
-            node.getFactor().apply(this);
+            node.getRight().apply(this);
         }
         outAXorAst(node);
     }
@@ -802,13 +802,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAPlusAst(APlusAst node)
     {
         inAPlusAst(node);
-        if(node.getExpr() != null)
+        if(node.getLeft() != null)
         {
-            node.getExpr().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getFactor() != null)
+        if(node.getRight() != null)
         {
-            node.getFactor().apply(this);
+            node.getRight().apply(this);
         }
         outAPlusAst(node);
     }
@@ -827,13 +827,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAMinusAst(AMinusAst node)
     {
         inAMinusAst(node);
-        if(node.getExpr() != null)
+        if(node.getLeft() != null)
         {
-            node.getExpr().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getFactor() != null)
+        if(node.getRight() != null)
         {
-            node.getFactor().apply(this);
+            node.getRight().apply(this);
         }
         outAMinusAst(node);
     }
@@ -852,13 +852,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAAndAst(AAndAst node)
     {
         inAAndAst(node);
-        if(node.getFactor() != null)
+        if(node.getLeft() != null)
         {
-            node.getFactor().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getTerm() != null)
+        if(node.getRight() != null)
         {
-            node.getTerm().apply(this);
+            node.getRight().apply(this);
         }
         outAAndAst(node);
     }
@@ -877,13 +877,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAModAst(AModAst node)
     {
         inAModAst(node);
-        if(node.getFactor() != null)
+        if(node.getLeft() != null)
         {
-            node.getFactor().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getTerm() != null)
+        if(node.getRight() != null)
         {
-            node.getTerm().apply(this);
+            node.getRight().apply(this);
         }
         outAModAst(node);
     }
@@ -902,13 +902,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAMultAst(AMultAst node)
     {
         inAMultAst(node);
-        if(node.getFactor() != null)
+        if(node.getLeft() != null)
         {
-            node.getFactor().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getTerm() != null)
+        if(node.getRight() != null)
         {
-            node.getTerm().apply(this);
+            node.getRight().apply(this);
         }
         outAMultAst(node);
     }
@@ -927,13 +927,13 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseADivAst(ADivAst node)
     {
         inADivAst(node);
-        if(node.getFactor() != null)
+        if(node.getLeft() != null)
         {
-            node.getFactor().apply(this);
+            node.getLeft().apply(this);
         }
-        if(node.getTerm() != null)
+        if(node.getRight() != null)
         {
-            node.getTerm().apply(this);
+            node.getRight().apply(this);
         }
         outADivAst(node);
     }

@@ -7,8 +7,8 @@ import pascal.analysis.*;
 @SuppressWarnings("nls")
 public final class AExprTopAst extends PAst
 {
-    private PAst _exprTop_;
-    private PAst _expr_;
+    private PAst _left_;
+    private PAst _right_;
 
     public AExprTopAst()
     {
@@ -16,13 +16,13 @@ public final class AExprTopAst extends PAst
     }
 
     public AExprTopAst(
-        @SuppressWarnings("hiding") PAst _exprTop_,
-        @SuppressWarnings("hiding") PAst _expr_)
+        @SuppressWarnings("hiding") PAst _left_,
+        @SuppressWarnings("hiding") PAst _right_)
     {
         // Constructor
-        setExprTop(_exprTop_);
+        setLeft(_left_);
 
-        setExpr(_expr_);
+        setRight(_right_);
 
     }
 
@@ -30,8 +30,8 @@ public final class AExprTopAst extends PAst
     public Object clone()
     {
         return new AExprTopAst(
-            cloneNode(this._exprTop_),
-            cloneNode(this._expr_));
+            cloneNode(this._left_),
+            cloneNode(this._right_));
     }
 
     @Override
@@ -40,16 +40,16 @@ public final class AExprTopAst extends PAst
         ((Analysis) sw).caseAExprTopAst(this);
     }
 
-    public PAst getExprTop()
+    public PAst getLeft()
     {
-        return this._exprTop_;
+        return this._left_;
     }
 
-    public void setExprTop(PAst node)
+    public void setLeft(PAst node)
     {
-        if(this._exprTop_ != null)
+        if(this._left_ != null)
         {
-            this._exprTop_.parent(null);
+            this._left_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class AExprTopAst extends PAst
             node.parent(this);
         }
 
-        this._exprTop_ = node;
+        this._left_ = node;
     }
 
-    public PAst getExpr()
+    public PAst getRight()
     {
-        return this._expr_;
+        return this._right_;
     }
 
-    public void setExpr(PAst node)
+    public void setRight(PAst node)
     {
-        if(this._expr_ != null)
+        if(this._right_ != null)
         {
-            this._expr_.parent(null);
+            this._right_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class AExprTopAst extends PAst
             node.parent(this);
         }
 
-        this._expr_ = node;
+        this._right_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._exprTop_)
-            + toString(this._expr_);
+            + toString(this._left_)
+            + toString(this._right_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._exprTop_ == child)
+        if(this._left_ == child)
         {
-            this._exprTop_ = null;
+            this._left_ = null;
             return;
         }
 
-        if(this._expr_ == child)
+        if(this._right_ == child)
         {
-            this._expr_ = null;
+            this._right_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class AExprTopAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._exprTop_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setExprTop((PAst) newChild);
+            setLeft((PAst) newChild);
             return;
         }
 
-        if(this._expr_ == oldChild)
+        if(this._right_ == oldChild)
         {
-            setExpr((PAst) newChild);
+            setRight((PAst) newChild);
             return;
         }
 

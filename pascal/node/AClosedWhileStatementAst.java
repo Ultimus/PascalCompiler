@@ -7,8 +7,8 @@ import pascal.analysis.*;
 @SuppressWarnings("nls")
 public final class AClosedWhileStatementAst extends PAst
 {
-    private PAst _exprTop_;
-    private PAst _closedStatement_;
+    private PAst _left_;
+    private PAst _right_;
 
     public AClosedWhileStatementAst()
     {
@@ -16,13 +16,13 @@ public final class AClosedWhileStatementAst extends PAst
     }
 
     public AClosedWhileStatementAst(
-        @SuppressWarnings("hiding") PAst _exprTop_,
-        @SuppressWarnings("hiding") PAst _closedStatement_)
+        @SuppressWarnings("hiding") PAst _left_,
+        @SuppressWarnings("hiding") PAst _right_)
     {
         // Constructor
-        setExprTop(_exprTop_);
+        setLeft(_left_);
 
-        setClosedStatement(_closedStatement_);
+        setRight(_right_);
 
     }
 
@@ -30,8 +30,8 @@ public final class AClosedWhileStatementAst extends PAst
     public Object clone()
     {
         return new AClosedWhileStatementAst(
-            cloneNode(this._exprTop_),
-            cloneNode(this._closedStatement_));
+            cloneNode(this._left_),
+            cloneNode(this._right_));
     }
 
     @Override
@@ -40,16 +40,16 @@ public final class AClosedWhileStatementAst extends PAst
         ((Analysis) sw).caseAClosedWhileStatementAst(this);
     }
 
-    public PAst getExprTop()
+    public PAst getLeft()
     {
-        return this._exprTop_;
+        return this._left_;
     }
 
-    public void setExprTop(PAst node)
+    public void setLeft(PAst node)
     {
-        if(this._exprTop_ != null)
+        if(this._left_ != null)
         {
-            this._exprTop_.parent(null);
+            this._left_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class AClosedWhileStatementAst extends PAst
             node.parent(this);
         }
 
-        this._exprTop_ = node;
+        this._left_ = node;
     }
 
-    public PAst getClosedStatement()
+    public PAst getRight()
     {
-        return this._closedStatement_;
+        return this._right_;
     }
 
-    public void setClosedStatement(PAst node)
+    public void setRight(PAst node)
     {
-        if(this._closedStatement_ != null)
+        if(this._right_ != null)
         {
-            this._closedStatement_.parent(null);
+            this._right_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class AClosedWhileStatementAst extends PAst
             node.parent(this);
         }
 
-        this._closedStatement_ = node;
+        this._right_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._exprTop_)
-            + toString(this._closedStatement_);
+            + toString(this._left_)
+            + toString(this._right_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._exprTop_ == child)
+        if(this._left_ == child)
         {
-            this._exprTop_ = null;
+            this._left_ = null;
             return;
         }
 
-        if(this._closedStatement_ == child)
+        if(this._right_ == child)
         {
-            this._closedStatement_ = null;
+            this._right_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class AClosedWhileStatementAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._exprTop_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setExprTop((PAst) newChild);
+            setLeft((PAst) newChild);
             return;
         }
 
-        if(this._closedStatement_ == oldChild)
+        if(this._right_ == oldChild)
         {
-            setClosedStatement((PAst) newChild);
+            setRight((PAst) newChild);
             return;
         }
 

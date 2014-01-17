@@ -7,8 +7,8 @@ import pascal.analysis.*;
 @SuppressWarnings("nls")
 public final class AModAst extends PAst
 {
-    private PAst _factor_;
-    private PAst _term_;
+    private PAst _left_;
+    private PAst _right_;
 
     public AModAst()
     {
@@ -16,13 +16,13 @@ public final class AModAst extends PAst
     }
 
     public AModAst(
-        @SuppressWarnings("hiding") PAst _factor_,
-        @SuppressWarnings("hiding") PAst _term_)
+        @SuppressWarnings("hiding") PAst _left_,
+        @SuppressWarnings("hiding") PAst _right_)
     {
         // Constructor
-        setFactor(_factor_);
+        setLeft(_left_);
 
-        setTerm(_term_);
+        setRight(_right_);
 
     }
 
@@ -30,8 +30,8 @@ public final class AModAst extends PAst
     public Object clone()
     {
         return new AModAst(
-            cloneNode(this._factor_),
-            cloneNode(this._term_));
+            cloneNode(this._left_),
+            cloneNode(this._right_));
     }
 
     @Override
@@ -40,16 +40,16 @@ public final class AModAst extends PAst
         ((Analysis) sw).caseAModAst(this);
     }
 
-    public PAst getFactor()
+    public PAst getLeft()
     {
-        return this._factor_;
+        return this._left_;
     }
 
-    public void setFactor(PAst node)
+    public void setLeft(PAst node)
     {
-        if(this._factor_ != null)
+        if(this._left_ != null)
         {
-            this._factor_.parent(null);
+            this._left_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class AModAst extends PAst
             node.parent(this);
         }
 
-        this._factor_ = node;
+        this._left_ = node;
     }
 
-    public PAst getTerm()
+    public PAst getRight()
     {
-        return this._term_;
+        return this._right_;
     }
 
-    public void setTerm(PAst node)
+    public void setRight(PAst node)
     {
-        if(this._term_ != null)
+        if(this._right_ != null)
         {
-            this._term_.parent(null);
+            this._right_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class AModAst extends PAst
             node.parent(this);
         }
 
-        this._term_ = node;
+        this._right_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._factor_)
-            + toString(this._term_);
+            + toString(this._left_)
+            + toString(this._right_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._factor_ == child)
+        if(this._left_ == child)
         {
-            this._factor_ = null;
+            this._left_ = null;
             return;
         }
 
-        if(this._term_ == child)
+        if(this._right_ == child)
         {
-            this._term_ = null;
+            this._right_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class AModAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._factor_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setFactor((PAst) newChild);
+            setLeft((PAst) newChild);
             return;
         }
 
-        if(this._term_ == oldChild)
+        if(this._right_ == oldChild)
         {
-            setTerm((PAst) newChild);
+            setRight((PAst) newChild);
             return;
         }
 

@@ -259,8 +259,16 @@ public class TypeChecker extends DepthFirstAdapter {
 
     @Override
     public void caseABreakAst(ABreakAst node){
-        
+        Node parent = node.parent();
+        String parentName = parent.getClass().getSimpleName();
 
+        while (!parentName.equals("AProgramStartAst")){
+            if (parentName.equals("AOpenWhileStatementAst") || parentName.equals("AClosedWhileStatementAst"))return ;
+            parent = parent.parent();
+            parentName = parent.getClass().getSimpleName();
+        }
+        System.out.println("ERROR: 'break' was used without 'while' statement");
+        System.exit(1);
     }
 
 

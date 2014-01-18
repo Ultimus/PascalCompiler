@@ -38,6 +38,9 @@ public class StupsCompiler {
                Start tree = parser.parse();
                ASTPrinter printer = new ASTPrinter();
                tree.apply(printer);
+               TypeChecker typeChecker = new TypeChecker();
+               tree.apply(typeChecker);
+
 
 
            }

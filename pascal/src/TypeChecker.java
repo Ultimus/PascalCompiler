@@ -4,9 +4,10 @@ package pascal.src;
  * Checks out the (body-) type of the (hoe/)code
  */
 
-import com.sun.java_cup.internal.runtime.virtual_parse_stack;
+/*import com.sun.java_cup.internal.runtime.virtual_parse_stack;
 import com.sun.org.apache.regexp.internal.recompile;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;*/
+
 import pascal.analysis.DepthFirstAdapter;
 import pascal.node.*;
 
@@ -26,9 +27,9 @@ public class TypeChecker extends DepthFirstAdapter {
 
     //put all declarations into the HashMap
     @Override
-    public void caseAVariablesDefinitionAst(AVariablesDefinition node){
+    public void caseAVariablesDefinitionAst(AVariablesDefinitionAst node){
         String variable = node.getIdentifier().toString().toLowerCase();
-        String type = node.getType().toString().toLowerCase();
+        String type = node.getAst().toString().toLowerCase();
 
 
 
@@ -184,7 +185,7 @@ public class TypeChecker extends DepthFirstAdapter {
     }
 
     @Override
-    public void caseAUnPlus(AUnPlusAst node){
+    public void caseAUnPlusAst(AUnPlusAst node){
         node.getAst().apply(this);
         if(!eoast.equals("integer") && !node.getAst().getClass().getSimpleName().equals("AIdentifierAst") && !node.getAst().getClass().getSimpleName().equals("ANumberAst")){
            System.out.println("ERROR: Unary Plus expects Integer");
@@ -193,7 +194,7 @@ public class TypeChecker extends DepthFirstAdapter {
     }
 
     @Override
-    public void caseAUnMinus(AUnMinusAst node){
+    public void caseAUnMinusAst(AUnMinusAst node){
         node.getAst().apply(this);
         if(!eoast.equals("integer") && !node.getAst().getClass().getSimpleName().equals("AIdentifierAst") && !node.getAst().getClass().getSimpleName().equals("ANumberAst")){
             System.out.println("ERROR: Unary Minus expects Integer");
@@ -253,6 +254,14 @@ public class TypeChecker extends DepthFirstAdapter {
         }
     }
 
+
+    //check if break is only used when a while was before. Maybe this is not the job of a type checker, but i think it is usefull
+
+    @Override
+    public void caseABreakAst(ABreakAst node){
+        
+
+    }
 
 
 

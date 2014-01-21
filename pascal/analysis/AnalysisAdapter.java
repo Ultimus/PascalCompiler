@@ -87,7 +87,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseADeclarationsAst(ADeclarationsAst node)
+    public void caseASingleDeclarationsAst(ASingleDeclarationsAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAMultipleDeclarationsAst(AMultipleDeclarationsAst node)
     {
         defaultCase(node);
     }
@@ -99,13 +105,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAVariablesDefinitionListAst(AVariablesDefinitionListAst node)
+    public void caseAIdentifierMoreAst(AIdentifierMoreAst node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAVariablesDefinitionAst(AVariablesDefinitionAst node)
+    public void caseAIdentifierDAst(AIdentifierDAst node)
     {
         defaultCase(node);
     }

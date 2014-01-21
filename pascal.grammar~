@@ -93,26 +93,16 @@ Productions
   program_header {-> ast}=
     program identifier semicolon {-> New ast.identifier(identifier)};
 
-  declarations{-> ast} = 
-    variables_declaration {-> variables_declaration.ast} |
-    {empty} {-> New ast.empty_declarations()};
+  declarations{->ast} = /*{single} var identifier colon type declarations{->New ast.single_declaration(identifier.ast, type.ast)}|*/
+			{multiple} var [left]:identifier_more colon [m]:type semicolon [right]:declarations{-> New ast.multiple_declarations(left.ast, m.ast, right.ast)} |
+			{empty} {->New ast.empty_declarations()};
+  
 
-  variables_declaration{-> ast} =
-    {single} var variables_definition semicolon {-> variables_definition.ast} |
-    {multiple} var variables_definition semicolon variables_declaration {-> variables_definition.ast} ;
-
-  hier steht böädsinn
-  variables_definition_list{-> ast} =
-    {single} variables_definition {-> variables_definition.ast}|
-    {multiple} variables_definition_list variables_definition {-> New ast.variables_definition_list(variables_definition_list.ast , variables_definition.ast)};
-
-
-  variables_definition{-> ast} =
-    identifier colon type {->New ast.variables_definition(identifier, type.ast)};
-
+  identifier_more{->ast} = {multiple}identifier_more comma identifier {->New ast.identifier_more(identifier_more.ast, identifier)}|
+			   {single} identifier {->New ast.identifier(identifier)};
 
   type{-> ast} =
-    integer {->New ast.integer(integer)} /*| boolean {->New ast.boolean(boolean)}*/ ;
+    {integer}integer {->New ast.integer(integer)} | {boolean}boolean {->New ast.boolean(boolean)} ;
 
   body{-> ast} =
     begin
@@ -188,10 +178,13 @@ Abstract Syntax Tree
 
   ast = {program_start} [left]:ast  [m]:ast* [right]:ast |
 	{program_header} identifier |
-	{declarations} ast |
+	{single_declarations} identifier ast |
+	{multiple_declarations} [left]:ast [m]:ast [right]:ast |
 	{empty_declarations} |
-	{variables_definition_list} [left]:ast [right]:ast |  /* variables_definition_list variables definition */
-	{variables_definition} identifier ast |
+	{identifier_more} ast identifier |
+	{identifier_d} identifier |
+	/*{variables_definition_list} [left]:ast [right]:ast |variables_definition_list variables definition 
+	{variables_definition} identifier ast |*/
 	{integer} integer |
 	{boolean} boolean |
 	{body} ast |

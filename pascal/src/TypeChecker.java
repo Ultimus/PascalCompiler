@@ -11,7 +11,7 @@ import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;*/
 import pascal.analysis.DepthFirstAdapter;
 import pascal.node.*;
 
-import javax.swing.text.html.HTMLDocument;
+import javax.sound.midi.SysexMessage;
 import java.util.HashMap;
 
 
@@ -26,22 +26,26 @@ public class TypeChecker extends DepthFirstAdapter {
 
 
     //put all declarations into the HashMap
+
     @Override
-    public void caseAVariablesDefinitionAst(AVariablesDefinitionAst node){
-        String variable = node.getIdentifier().toString().toLowerCase().replaceAll("\\s+","");
-        String type = node.getAst().toString().toLowerCase().replaceAll("\\s+","");
+    public void caseAMultipleDeclarationsAst(AMultipleDeclarationsAst node){
+        String []variable = node.getLeft().toString().toLowerCase().split(" ");
+        String type = node.getM().toString().toLowerCase().replaceAll("\\s+", "");
+        System.out.println("caseMulti type : "+type);
 
+        for(String tempVar : variable){
+            if(!symbols.containsKey(variable)){
+                symbols.put(tempVar, type);
 
-
-        if(!symbols.containsKey(variable)){
-            symbols.put(variable, type);
-
+            }
+            else {
+                System.out.println("ERROR: Already declared "+variable+ " as "+symbols.get(variable));
+                System.exit(1);
+            }
         }
-        else {
-            System.out.println("ERROR: Already declared " + variable + " as " + symbols.get(variable));
-            System.exit(1);
-        }
+
     }
+
 
     //if number is in ast write it in eoast
     public void caseANumberAst(ANumberAst node){
@@ -73,8 +77,12 @@ public class TypeChecker extends DepthFirstAdapter {
 
     @Override
     public void caseAAssignmentAst(AAssignmentAst node){
-        String identifier = node.getIdentifier().toString().toLowerCase();
+        String identifier = node.getIdentifier().toString().toLowerCase().replaceAll("\\s+","");
         String type = symbols.get(identifier);
+        System.out.println("type: " + symbols.get(identifier));
+
+        //System.out.println(identifier+" "+ type);
+
         if (!symbols.containsKey(identifier)){
             System.out.println ("ERROR: Undeclared Variable " + identifier);
             System.exit(1);
@@ -95,6 +103,7 @@ public class TypeChecker extends DepthFirstAdapter {
         //in case of Number expr, is type Integer?
         if (expr.equals("ANumberAst")){
             if(!type.equals("integer")){
+                System.out.println("Expr: "+expr + "    Type: " + type);
                 System.out.println("ERROR: Number was not assigned to Integer");
                 System.exit(1);
             }
@@ -260,12 +269,12 @@ public class TypeChecker extends DepthFirstAdapter {
     @Override
     public void caseABreakAst(ABreakAst node){
         Node parent = node.parent();
-        String parentName = parent.getClass().getSimpleName();
+        String parentName = parent.getClass().getSimpleName().replaceAll("\\s+","");
 
         while (!parentName.equals("AProgramStartAst")){
             if (parentName.equals("AOpenWhileStatementAst") || parentName.equals("AClosedWhileStatementAst"))return ;
             parent = parent.parent();
-            parentName = parent.getClass().getSimpleName();
+            parentName = parent.getClass().getSimpleName().replaceAll("\\s+","");
         }
         System.out.println("ERROR: 'break' was used without 'while' statement");
         System.exit(1);

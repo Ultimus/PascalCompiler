@@ -90,25 +90,58 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAProgramHeaderAst(node);
     }
 
-    public void inADeclarationsAst(ADeclarationsAst node)
+    public void inASingleDeclarationsAst(ASingleDeclarationsAst node)
     {
         defaultIn(node);
     }
 
-    public void outADeclarationsAst(ADeclarationsAst node)
+    public void outASingleDeclarationsAst(ASingleDeclarationsAst node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseADeclarationsAst(ADeclarationsAst node)
+    public void caseASingleDeclarationsAst(ASingleDeclarationsAst node)
     {
-        inADeclarationsAst(node);
+        inASingleDeclarationsAst(node);
         if(node.getAst() != null)
         {
             node.getAst().apply(this);
         }
-        outADeclarationsAst(node);
+        if(node.getIdentifier() != null)
+        {
+            node.getIdentifier().apply(this);
+        }
+        outASingleDeclarationsAst(node);
+    }
+
+    public void inAMultipleDeclarationsAst(AMultipleDeclarationsAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAMultipleDeclarationsAst(AMultipleDeclarationsAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAMultipleDeclarationsAst(AMultipleDeclarationsAst node)
+    {
+        inAMultipleDeclarationsAst(node);
+        if(node.getRight() != null)
+        {
+            node.getRight().apply(this);
+        }
+        if(node.getM() != null)
+        {
+            node.getM().apply(this);
+        }
+        if(node.getLeft() != null)
+        {
+            node.getLeft().apply(this);
+        }
+        outAMultipleDeclarationsAst(node);
     }
 
     public void inAEmptyDeclarationsAst(AEmptyDeclarationsAst node)
@@ -128,54 +161,50 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAEmptyDeclarationsAst(node);
     }
 
-    public void inAVariablesDefinitionListAst(AVariablesDefinitionListAst node)
+    public void inAIdentifierMoreAst(AIdentifierMoreAst node)
     {
         defaultIn(node);
     }
 
-    public void outAVariablesDefinitionListAst(AVariablesDefinitionListAst node)
+    public void outAIdentifierMoreAst(AIdentifierMoreAst node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAVariablesDefinitionListAst(AVariablesDefinitionListAst node)
+    public void caseAIdentifierMoreAst(AIdentifierMoreAst node)
     {
-        inAVariablesDefinitionListAst(node);
-        if(node.getRight() != null)
-        {
-            node.getRight().apply(this);
-        }
-        if(node.getLeft() != null)
-        {
-            node.getLeft().apply(this);
-        }
-        outAVariablesDefinitionListAst(node);
-    }
-
-    public void inAVariablesDefinitionAst(AVariablesDefinitionAst node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAVariablesDefinitionAst(AVariablesDefinitionAst node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAVariablesDefinitionAst(AVariablesDefinitionAst node)
-    {
-        inAVariablesDefinitionAst(node);
-        if(node.getAst() != null)
-        {
-            node.getAst().apply(this);
-        }
+        inAIdentifierMoreAst(node);
         if(node.getIdentifier() != null)
         {
             node.getIdentifier().apply(this);
         }
-        outAVariablesDefinitionAst(node);
+        if(node.getAst() != null)
+        {
+            node.getAst().apply(this);
+        }
+        outAIdentifierMoreAst(node);
+    }
+
+    public void inAIdentifierDAst(AIdentifierDAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAIdentifierDAst(AIdentifierDAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAIdentifierDAst(AIdentifierDAst node)
+    {
+        inAIdentifierDAst(node);
+        if(node.getIdentifier() != null)
+        {
+            node.getIdentifier().apply(this);
+        }
+        outAIdentifierDAst(node);
     }
 
     public void inAIntegerAst(AIntegerAst node)

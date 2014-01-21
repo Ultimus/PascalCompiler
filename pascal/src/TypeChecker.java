@@ -28,8 +28,8 @@ public class TypeChecker extends DepthFirstAdapter {
     //put all declarations into the HashMap
     @Override
     public void caseAVariablesDefinitionAst(AVariablesDefinitionAst node){
-        String variable = node.getIdentifier().toString().toLowerCase();
-        String type = node.getAst().toString().toLowerCase();
+        String variable = node.getIdentifier().toString().toLowerCase().replaceAll("\\s+","");
+        String type = node.getAst().toString().toLowerCase().replaceAll("\\s+","");
 
 
 
@@ -61,7 +61,7 @@ public class TypeChecker extends DepthFirstAdapter {
     @Override
     public void caseAIdentifierAst(AIdentifierAst node)
     {
-        String identifier = node.getIdentifier().toString().toLowerCase();
+        String identifier = node.getIdentifier().toString().toLowerCase().replaceAll("\\s+","");
         if(symbols.containsKey(identifier)){
             System.out.println("ERROR: Identifier "+ identifier+ "has been declared, but not initialized");
             System.exit(1);

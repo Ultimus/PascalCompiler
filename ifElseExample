@@ -1,11 +1,13 @@
 program ifElseExample ;
 var a : integer;
 var b : integer;
+var c : boolean;
 begin
 a := 1;
 b := 2;
-if ( a = 2) then
-if (not (b = 2)) then b := 5 else a:=8;
+c := true;
+if ((a < 2 or a >5) and c = true) then
+if (b = 2) then b := 5 else a:=8;
 writeln(a);
 end. 
 

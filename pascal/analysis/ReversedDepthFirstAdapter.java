@@ -50,21 +50,21 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAProgramStartAst(AProgramStartAst node)
     {
         inAProgramStartAst(node);
-        if(node.getRight() != null)
+        if(node.getBody() != null)
         {
-            node.getRight().apply(this);
+            node.getBody().apply(this);
         }
         {
-            List<PAst> copy = new ArrayList<PAst>(node.getM());
+            List<PAst> copy = new ArrayList<PAst>(node.getDeclarations());
             Collections.reverse(copy);
             for(PAst e : copy)
             {
                 e.apply(this);
             }
         }
-        if(node.getLeft() != null)
+        if(node.getIdentifier() != null)
         {
-            node.getLeft().apply(this);
+            node.getIdentifier().apply(this);
         }
         outAProgramStartAst(node);
     }
@@ -90,75 +90,29 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAProgramHeaderAst(node);
     }
 
-    public void inASingleDeclarationsAst(ASingleDeclarationsAst node)
+    public void inADeclarationsAst(ADeclarationsAst node)
     {
         defaultIn(node);
     }
 
-    public void outASingleDeclarationsAst(ASingleDeclarationsAst node)
+    public void outADeclarationsAst(ADeclarationsAst node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseASingleDeclarationsAst(ASingleDeclarationsAst node)
+    public void caseADeclarationsAst(ADeclarationsAst node)
     {
-        inASingleDeclarationsAst(node);
-        if(node.getAst() != null)
+        inADeclarationsAst(node);
+        if(node.getType() != null)
         {
-            node.getAst().apply(this);
+            node.getType().apply(this);
         }
         if(node.getIdentifier() != null)
         {
             node.getIdentifier().apply(this);
         }
-        outASingleDeclarationsAst(node);
-    }
-
-    public void inAMultipleDeclarationsAst(AMultipleDeclarationsAst node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAMultipleDeclarationsAst(AMultipleDeclarationsAst node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAMultipleDeclarationsAst(AMultipleDeclarationsAst node)
-    {
-        inAMultipleDeclarationsAst(node);
-        if(node.getRight() != null)
-        {
-            node.getRight().apply(this);
-        }
-        if(node.getM() != null)
-        {
-            node.getM().apply(this);
-        }
-        if(node.getLeft() != null)
-        {
-            node.getLeft().apply(this);
-        }
-        outAMultipleDeclarationsAst(node);
-    }
-
-    public void inAEmptyDeclarationsAst(AEmptyDeclarationsAst node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAEmptyDeclarationsAst(AEmptyDeclarationsAst node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAEmptyDeclarationsAst(AEmptyDeclarationsAst node)
-    {
-        inAEmptyDeclarationsAst(node);
-        outAEmptyDeclarationsAst(node);
+        outADeclarationsAst(node);
     }
 
     public void inAIdentifierMoreAst(AIdentifierMoreAst node)

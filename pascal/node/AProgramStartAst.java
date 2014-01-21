@@ -8,9 +8,9 @@ import pascal.analysis.*;
 @SuppressWarnings("nls")
 public final class AProgramStartAst extends PAst
 {
-    private PAst _left_;
-    private final LinkedList<PAst> _m_ = new LinkedList<PAst>();
-    private PAst _right_;
+    private TIdentifier _identifier_;
+    private final LinkedList<PAst> _declarations_ = new LinkedList<PAst>();
+    private PAst _body_;
 
     public AProgramStartAst()
     {
@@ -18,16 +18,16 @@ public final class AProgramStartAst extends PAst
     }
 
     public AProgramStartAst(
-        @SuppressWarnings("hiding") PAst _left_,
-        @SuppressWarnings("hiding") List<?> _m_,
-        @SuppressWarnings("hiding") PAst _right_)
+        @SuppressWarnings("hiding") TIdentifier _identifier_,
+        @SuppressWarnings("hiding") List<?> _declarations_,
+        @SuppressWarnings("hiding") PAst _body_)
     {
         // Constructor
-        setLeft(_left_);
+        setIdentifier(_identifier_);
 
-        setM(_m_);
+        setDeclarations(_declarations_);
 
-        setRight(_right_);
+        setBody(_body_);
 
     }
 
@@ -35,9 +35,9 @@ public final class AProgramStartAst extends PAst
     public Object clone()
     {
         return new AProgramStartAst(
-            cloneNode(this._left_),
-            cloneList(this._m_),
-            cloneNode(this._right_));
+            cloneNode(this._identifier_),
+            cloneList(this._declarations_),
+            cloneNode(this._body_));
     }
 
     @Override
@@ -46,16 +46,16 @@ public final class AProgramStartAst extends PAst
         ((Analysis) sw).caseAProgramStartAst(this);
     }
 
-    public PAst getLeft()
+    public TIdentifier getIdentifier()
     {
-        return this._left_;
+        return this._identifier_;
     }
 
-    public void setLeft(PAst node)
+    public void setIdentifier(TIdentifier node)
     {
-        if(this._left_ != null)
+        if(this._identifier_ != null)
         {
-            this._left_.parent(null);
+            this._identifier_.parent(null);
         }
 
         if(node != null)
@@ -68,21 +68,21 @@ public final class AProgramStartAst extends PAst
             node.parent(this);
         }
 
-        this._left_ = node;
+        this._identifier_ = node;
     }
 
-    public LinkedList<PAst> getM()
+    public LinkedList<PAst> getDeclarations()
     {
-        return this._m_;
+        return this._declarations_;
     }
 
-    public void setM(List<?> list)
+    public void setDeclarations(List<?> list)
     {
-        for(PAst e : this._m_)
+        for(PAst e : this._declarations_)
         {
             e.parent(null);
         }
-        this._m_.clear();
+        this._declarations_.clear();
 
         for(Object obj_e : list)
         {
@@ -93,20 +93,20 @@ public final class AProgramStartAst extends PAst
             }
 
             e.parent(this);
-            this._m_.add(e);
+            this._declarations_.add(e);
         }
     }
 
-    public PAst getRight()
+    public PAst getBody()
     {
-        return this._right_;
+        return this._body_;
     }
 
-    public void setRight(PAst node)
+    public void setBody(PAst node)
     {
-        if(this._right_ != null)
+        if(this._body_ != null)
         {
-            this._right_.parent(null);
+            this._body_.parent(null);
         }
 
         if(node != null)
@@ -119,36 +119,36 @@ public final class AProgramStartAst extends PAst
             node.parent(this);
         }
 
-        this._right_ = node;
+        this._body_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._left_)
-            + toString(this._m_)
-            + toString(this._right_);
+            + toString(this._identifier_)
+            + toString(this._declarations_)
+            + toString(this._body_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._left_ == child)
+        if(this._identifier_ == child)
         {
-            this._left_ = null;
+            this._identifier_ = null;
             return;
         }
 
-        if(this._m_.remove(child))
+        if(this._declarations_.remove(child))
         {
             return;
         }
 
-        if(this._right_ == child)
+        if(this._body_ == child)
         {
-            this._right_ = null;
+            this._body_ = null;
             return;
         }
 
@@ -159,13 +159,13 @@ public final class AProgramStartAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._left_ == oldChild)
+        if(this._identifier_ == oldChild)
         {
-            setLeft((PAst) newChild);
+            setIdentifier((TIdentifier) newChild);
             return;
         }
 
-        for(ListIterator<PAst> i = this._m_.listIterator(); i.hasNext();)
+        for(ListIterator<PAst> i = this._declarations_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
@@ -183,9 +183,9 @@ public final class AProgramStartAst extends PAst
             }
         }
 
-        if(this._right_ == oldChild)
+        if(this._body_ == oldChild)
         {
-            setRight((PAst) newChild);
+            setBody((PAst) newChild);
             return;
         }
 

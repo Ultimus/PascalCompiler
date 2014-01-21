@@ -87,19 +87,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseASingleDeclarationsAst(ASingleDeclarationsAst node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAMultipleDeclarationsAst(AMultipleDeclarationsAst node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAEmptyDeclarationsAst(AEmptyDeclarationsAst node)
+    public void caseADeclarationsAst(ADeclarationsAst node)
     {
         defaultCase(node);
     }

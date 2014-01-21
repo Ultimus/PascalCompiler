@@ -7,7 +7,8 @@ import pascal.analysis.*;
 @SuppressWarnings("nls")
 public final class ADeclarationsAst extends PAst
 {
-    private PAst _ast_;
+    private PAst _identifier_;
+    private PAst _type_;
 
     public ADeclarationsAst()
     {
@@ -15,10 +16,13 @@ public final class ADeclarationsAst extends PAst
     }
 
     public ADeclarationsAst(
-        @SuppressWarnings("hiding") PAst _ast_)
+        @SuppressWarnings("hiding") PAst _identifier_,
+        @SuppressWarnings("hiding") PAst _type_)
     {
         // Constructor
-        setAst(_ast_);
+        setIdentifier(_identifier_);
+
+        setType(_type_);
 
     }
 
@@ -26,7 +30,8 @@ public final class ADeclarationsAst extends PAst
     public Object clone()
     {
         return new ADeclarationsAst(
-            cloneNode(this._ast_));
+            cloneNode(this._identifier_),
+            cloneNode(this._type_));
     }
 
     @Override
@@ -35,16 +40,16 @@ public final class ADeclarationsAst extends PAst
         ((Analysis) sw).caseADeclarationsAst(this);
     }
 
-    public PAst getAst()
+    public PAst getIdentifier()
     {
-        return this._ast_;
+        return this._identifier_;
     }
 
-    public void setAst(PAst node)
+    public void setIdentifier(PAst node)
     {
-        if(this._ast_ != null)
+        if(this._identifier_ != null)
         {
-            this._ast_.parent(null);
+            this._identifier_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +62,55 @@ public final class ADeclarationsAst extends PAst
             node.parent(this);
         }
 
-        this._ast_ = node;
+        this._identifier_ = node;
+    }
+
+    public PAst getType()
+    {
+        return this._type_;
+    }
+
+    public void setType(PAst node)
+    {
+        if(this._type_ != null)
+        {
+            this._type_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._type_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._ast_);
+            + toString(this._identifier_)
+            + toString(this._type_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._ast_ == child)
+        if(this._identifier_ == child)
         {
-            this._ast_ = null;
+            this._identifier_ = null;
+            return;
+        }
+
+        if(this._type_ == child)
+        {
+            this._type_ = null;
             return;
         }
 
@@ -84,9 +121,15 @@ public final class ADeclarationsAst extends PAst
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._ast_ == oldChild)
+        if(this._identifier_ == oldChild)
         {
-            setAst((PAst) newChild);
+            setIdentifier((PAst) newChild);
+            return;
+        }
+
+        if(this._type_ == oldChild)
+        {
+            setType((PAst) newChild);
             return;
         }
 

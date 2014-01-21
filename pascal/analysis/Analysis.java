@@ -14,9 +14,7 @@ public interface Analysis extends Switch
     void caseStart(Start node);
     void caseAProgramStartAst(AProgramStartAst node);
     void caseAProgramHeaderAst(AProgramHeaderAst node);
-    void caseASingleDeclarationsAst(ASingleDeclarationsAst node);
-    void caseAMultipleDeclarationsAst(AMultipleDeclarationsAst node);
-    void caseAEmptyDeclarationsAst(AEmptyDeclarationsAst node);
+    void caseADeclarationsAst(ADeclarationsAst node);
     void caseAIdentifierMoreAst(AIdentifierMoreAst node);
     void caseAIdentifierDAst(AIdentifierDAst node);
     void caseAIntegerAst(AIntegerAst node);

@@ -88,14 +88,9 @@ Ignored Tokens
 
 Productions
 
-  program_start {-> ast} = [left]:program_header [m]:declarations [right]:body dot {-> New ast.program_start(left.ast, [m.ast], right.ast)};
+  program_start {-> ast} = program identifier semicolon declarations* body dot {-> New ast.program_start(identifier, [declarations.ast], body.ast)};
 
-  program_header {-> ast}=
-    program identifier semicolon {-> New ast.identifier(identifier)};
-
-  declarations{->ast} = /*{single} var identifier colon type declarations{->New ast.single_declaration(identifier.ast, type.ast)}|*/
-			{multiple} var [left]:identifier_more colon [m]:type semicolon [right]:declarations{-> New ast.multiple_declarations(left.ast, m.ast, right.ast)} |
-			{empty} {->New ast.empty_declarations()};
+  declarations{->ast} = var identifier_more colon type semicolon{-> New ast.declarations(identifier_more.ast, type.ast)};
   
 
   identifier_more{->ast} = {multiple}identifier_more comma identifier {->New ast.identifier_more(identifier_more.ast, identifier)}|
@@ -176,15 +171,11 @@ Productions
 
 Abstract Syntax Tree
 
-  ast = {program_start} [left]:ast  [m]:ast* [right]:ast |
+  ast = {program_start} identifier [declarations]:ast* [body]:ast|
 	{program_header} identifier |
-	{single_declarations} identifier ast |
-	{multiple_declarations} [left]:ast [m]:ast [right]:ast |
-	{empty_declarations} |
+	{declarations} [identifier]:ast [type]:ast
 	{identifier_more} ast identifier |
 	{identifier_d} identifier |
-	/*{variables_definition_list} [left]:ast [right]:ast |variables_definition_list variables definition 
-	{variables_definition} identifier ast |*/
 	{integer} integer |
 	{boolean} boolean |
 	{body} ast |

@@ -10,8 +10,6 @@ import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;*/
 
 import pascal.analysis.DepthFirstAdapter;
 import pascal.node.*;
-
-import javax.sound.midi.SysexMessage;
 import java.util.HashMap;
 
 
@@ -28,9 +26,9 @@ public class TypeChecker extends DepthFirstAdapter {
     //put all declarations into the HashMap
 
     @Override
-    public void caseAMultipleDeclarationsAst(AMultipleDeclarationsAst node){
-        String []variable = node.getLeft().toString().toLowerCase().split(" ");
-        String type = node.getM().toString().toLowerCase().replaceAll("\\s+", "");
+    public void caseADeclarationsAst(ADeclarationsAst node){
+        String []variable = node.getIdentifier().toString().toLowerCase().split(" ");
+        String type = node.getType().toString().toLowerCase().replaceAll("\\s+", "");
         System.out.println("caseMulti type : "+type);
 
         for(String tempVar : variable){
@@ -39,7 +37,7 @@ public class TypeChecker extends DepthFirstAdapter {
 
             }
             else {
-                System.out.println("ERROR: Already declared "+variable+ " as "+symbols.get(variable));
+                System.out.println("ERROR: Already declared "+tempVar+ " as "+symbols.get(variable));
                 System.exit(1);
             }
         }
@@ -53,11 +51,11 @@ public class TypeChecker extends DepthFirstAdapter {
     }
 
     //same for boolean
-    public void caseTrueAst(ATrueAst node){
+    public void caseATrueAst(ATrueAst node){
         this.eoast = "boolean";
     }
 
-    public void caseFalseAst(AFalseAst node){
+    public void caseAFalseAst(AFalseAst node){
         this.eoast = "boolean";
     }
 
@@ -66,8 +64,8 @@ public class TypeChecker extends DepthFirstAdapter {
     public void caseAIdentifierAst(AIdentifierAst node)
     {
         String identifier = node.getIdentifier().toString().toLowerCase().replaceAll("\\s+","");
-        if(symbols.containsKey(identifier)){
-            System.out.println("ERROR: Identifier "+ identifier+ "has been declared, but not initialized");
+        if(!symbols.containsKey(identifier)){
+            System.out.println("ERROR: Identifier '"+ identifier+ "' has been declared, but not initialized");
             System.exit(1);
 
         }
@@ -81,7 +79,7 @@ public class TypeChecker extends DepthFirstAdapter {
         String type = symbols.get(identifier);
         System.out.println("type: " + symbols.get(identifier));
 
-        //System.out.println(identifier+" "+ type);
+        System.out.println("caseAssignement Identifier: "+identifier+"   Type: "+ type);
 
         if (!symbols.containsKey(identifier)){
             System.out.println ("ERROR: Undeclared Variable " + identifier);
@@ -256,6 +254,7 @@ public class TypeChecker extends DepthFirstAdapter {
     @Override
     public void caseANotAst(ANotAst node){
         node.getAst().apply(this);
+        System.out.println("Eoast: "+ eoast+ "      Node:"+ node.toString());
 
         if (!eoast.equals("boolean")){
             System.out.println("ERROR: Not expects Boolean");

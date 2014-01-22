@@ -6,7 +6,7 @@ begin
 a := 1;
 b := 2;
 c := true;
-if ((a < 2 or a >5) and not c = true) then
+if ((a < 2 or a >5) and (c = true)) then
 if (b = 2) then b := 5 else a:=8;
 writeln(a);
 end. 

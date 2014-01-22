@@ -69,6 +69,8 @@ public class TypeChecker extends DepthFirstAdapter {
             System.exit(1);
 
         }
+        this.eoast=symbols.get(identifier);
+
 
 
     }

@@ -17,8 +17,29 @@ public class CodeGen extends DepthFirstAdapter{
     private int comparePointer;
 
     private HashMap<String, Integer> symbols = new HashMap<String, Integer>(); // saves the number for the variable
+    private HashMap<String,String> types = new HashMap<String, String>();
     private int labelCounter;
 
+
+    public CodeGen(HashMap<String,String> symbols){
+        types = symbols; // works, not sure why, but idea told me so, i ll figure out after a good sleep
+
+    }
+
+    public HashMap<String,Integer> getSymbols(){
+        return symbols;
+    }
+
+
+
+
+    public int getStackpointer(){
+        return stackpointer;
+    }
+
+    public String getCode(){
+        return code;
+    }
 
     //lets print some things
     public void caseAWritelnAst(AWritelnAst node){

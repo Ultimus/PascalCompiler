@@ -1,5 +1,6 @@
 
 /* -*- jde -*- ASTPrinter.java.in */
+
 import java.util.Stack;
 
 import pascal.node.*;

@@ -1,14 +1,15 @@
 program firstexample ;
-var a: integer;
+var a_a: integer;
 var b: integer;
 var temp: integer;
 begin
-a := 1;
+a_a := 1;
 b := 1;
 while true do begin
 writeln(a) ;
 temp := b ;
-b := a + b ;
+b := a_a + b ;
 b := temp ;
+end
 end.
 

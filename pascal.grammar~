@@ -73,7 +73,7 @@ Tokens
   l_par = '(' ;
   r_par = ')' ;
 
-  identifier = letter (letter | digit)* ;
+  identifier = letter (letter | digit | '_')* ;
 
   number = digit+ ;
 
@@ -173,7 +173,7 @@ Abstract Syntax Tree
 
   ast = {program_start} identifier [declarations]:ast* [body]:ast|
 	{program_header} identifier |
-	{declarations} [identifier]:ast [type]:ast
+	{declarations} [identifier]:ast [type]:ast |
 	{identifier_more} ast identifier |
 	{identifier_d} identifier |
 	{integer} integer |

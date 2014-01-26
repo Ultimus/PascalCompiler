@@ -47,8 +47,8 @@ public class StupsCompiler {
                    codeGen.getSymbols().put(temp, var--); //I need the identifiers HERE!
                }
                tree.apply(codeGen);
-               String output = typicalOutput(codeGen, filename);
-               Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename+".j"),"UTF8"));
+               String output = typicalOutput(codeGen, filename.replace(".pas",""));
+               Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename.replace(".pas","")+".j"),"UTF8"));
                writer.append(output);
                writer.close();
 

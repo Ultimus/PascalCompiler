@@ -73,7 +73,7 @@ Tokens
   l_par = '(' ;
   r_par = ')' ;
 
-  identifier = letter (letter | digit)* ;
+  identifier = letter (letter | digit | '_')* ;
 
   number = digit+ ;
 
@@ -194,6 +194,7 @@ Abstract Syntax Tree
 	{block} ast |
 	{empty} |
 	{if_statement} ast |
+	{compare} [left]:ast [mid]:ast [right]:ast |
 	{equal} equal |
 	{less} less |
 	{greater} greater |

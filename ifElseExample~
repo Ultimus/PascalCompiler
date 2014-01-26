@@ -1,13 +1,13 @@
 program ifElseExample ;
-var a : integer;
+var a_a : integer;
 var b : integer;
 var c : boolean;
 begin
-a := 1;
-b := 2;
+a_a := 3;
+b := 23;
 c := true;
-if ((a < 2 or a >5) and (c = true)) then
-if (b = 2) then b := 5 else a:=8;
-writeln(a);
+if ( (a_a < 5) and (b > 20)) then
+if (b = 2) then b := 5 else a_a:=8;
+writeln(a_a);
 end. 
 

@@ -35,6 +35,7 @@ public interface Analysis extends Switch
     void caseABlockAst(ABlockAst node);
     void caseAEmptyAst(AEmptyAst node);
     void caseAIfStatementAst(AIfStatementAst node);
+    void caseACompareAst(ACompareAst node);
     void caseAEqualAst(AEqualAst node);
     void caseALessAst(ALessAst node);
     void caseAGreaterAst(AGreaterAst node);

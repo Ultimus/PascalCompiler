@@ -29,7 +29,7 @@ public class TypeChecker extends DepthFirstAdapter {
     public void caseADeclarationsAst(ADeclarationsAst node){
         String []variable = node.getIdentifier().toString().toLowerCase().split(" ");
         String type = node.getType().toString().toLowerCase().replaceAll("\\s+", "");
-        System.out.println("caseMulti type : "+type);
+
 
         for(String tempVar : variable){
             if(!symbols.containsKey(variable)){
@@ -79,9 +79,6 @@ public class TypeChecker extends DepthFirstAdapter {
     public void caseAAssignmentAst(AAssignmentAst node){
         String identifier = node.getIdentifier().toString().toLowerCase().replaceAll("\\s+","");
         String type = symbols.get(identifier);
-        System.out.println("type: " + symbols.get(identifier));
-
-        System.out.println("caseAssignement Identifier: "+identifier+"   Type: "+ type);
 
         if (!symbols.containsKey(identifier)){
             System.out.println ("ERROR: Undeclared Variable " + identifier);
@@ -214,6 +211,22 @@ public class TypeChecker extends DepthFirstAdapter {
     //same "thing" for booleans
 
     //main thing first
+
+    @Override
+    public void caseACompareAst(ACompareAst node){
+        node.getLeft().apply(this);
+        String left = this.eoast;
+        node.getRight().apply(this);
+        String right = this.eoast;
+        eoast = "boolean";
+
+        if(!left.equals(right)){
+            System.out.println("ERROR: wrong type for comparison");
+            System.exit(1);
+        }
+    }
+
+
      @Override
     public void caseAOrAst(AOrAst node){
          node.getLeft().apply(this);

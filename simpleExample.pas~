@@ -1,0 +1,6 @@
+program simpleExample;
+var a_ : integer;
+begin
+a_ := 555;
+writeln(a_);
+end.

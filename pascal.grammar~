@@ -194,6 +194,7 @@ Abstract Syntax Tree
 	{block} ast |
 	{empty} |
 	{if_statement} ast |
+	{compare} [left]:ast [mid]:ast [right]:ast |
 	{equal} equal |
 	{less} less |
 	{greater} greater |

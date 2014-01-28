@@ -14,6 +14,7 @@ public class CodeGen extends DepthFirstAdapter{
     private int labels;
     private int stackpointer = 1;
     private int comparePointer;
+    private int breakPointer;
 
     private HashMap<String, Integer> symbols = new HashMap<String, Integer>(); // saves the number for the variable
     private HashMap<String,String> types = new HashMap<String, String>();
@@ -171,6 +172,40 @@ public class CodeGen extends DepthFirstAdapter{
         code += "\tifne LabelTrue"+(comparePointer++)+"\n";
         stackpointer--;
     }
+
+
+    //more difficult stuff now
+
+    @Override
+    public void caseAAssignmentAst(AAssignmentAst node){
+        node.getAst().apply(this);
+        code += "\tistore "+symbols.get(node.getIdentifier().toString().toLowerCase().replaceAll("\\s+",""))+"\n";
+        stackpointer--;
+    }
+
+    @Override
+    public void outAIdentifierAst(AIdentifierAst node){
+        String identifier = node.getIdentifier().toString().toLowerCase().replaceAll("\\s+","");
+        Node parent = node.parent();
+        String name = parent.getClass().getSimpleName().replaceAll("\\s+","");
+        boolean flag =true;
+        while (!name.equals("AProgramStartAst")){
+            if(name.equals("ADeclarationsAst"))   //if variable is declared i will not load it
+                flag = false;
+
+        }
+        if(flag){
+            code +="\tiload "+symbols.get(identifier)+"\n";
+            stackpointer++;
+        }
+    }
+
+    @Override
+    public void caseABreakAst(ABreakAst node){
+        code += "\tgoto LabelBreakEnd"+breakPointer+"\n";
+    }
+
+
 
 
 }

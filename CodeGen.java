@@ -115,7 +115,7 @@ public class CodeGen extends DepthFirstAdapter{
 
     //lets read a number
     @Override
-    public void outANumberAst(ANumberAst node){
+    public void caseANumberAst(ANumberAst node){
         int number = Integer.parseInt(node.getNumber().toString());
         code += "\tldc "+number+"\n";
         stackpointer++;
@@ -123,13 +123,13 @@ public class CodeGen extends DepthFirstAdapter{
 
     //lets read a boolean
     @Override
-    public void outATrueAst(ATrueAst node){
+    public void caseATrueAst(ATrueAst node){
         code += "\tbipush 1\n";
         stackpointer++;
     }
 
     @Override
-    public void outAFalseAst(AFalseAst node){
+    public void caseAFalseAst(AFalseAst node){
         code += "\tbipush 0\n";
         stackpointer++;
     }
@@ -205,6 +205,74 @@ public class CodeGen extends DepthFirstAdapter{
         code += "\tgoto LabelBreakEnd"+breakPointer+"\n";
     }
 
+    @Override
+    public void caseAOpenWhileStatementAst(AOpenWhileStatementAst node){
+        code += "LabelWhileOpen"+labelCounter+":\n";
+        node.getLeft().apply(this);
+        code += "\tifeq LabelWhileControl"+labelCounter+"\n";
+        stackpointer--;
+        node.getRight().apply(this);
+        code += "\tgoto LabelWhileOpen"+labelCounter+"\nLabelWhileControl"+labelCounter+":\nLabelBreakEnd"+breakPointer+"\n";
+        breakPointer++;
+        labelCounter++;
+    }
+
+    @Override
+    public void caseAClosedWhileStatementAst(AClosedWhileStatementAst node){
+        code += "LabelWhileOpen"+labelCounter+":\n";
+        node.getLeft().apply(this);
+        code += "\tifeq LabelWhileControl"+labelCounter+"\n";
+        stackpointer--;
+        node.getRight().apply(this);
+        code += "\tgoto LabelWhileOpen"+labelCounter+"\nLabelWhileControl"+labelCounter+":\nLabelBreakEnd"+breakPointer+"\n";
+        breakPointer++;
+        labelCounter++;
+    }
+
+    @Override
+    public void caseAOpenIfStatementAst (AOpenIfStatementAst node){
+        node.getLeft().apply(this);
+        code += "\tifeq LabelIfControl"+labelCounter+"\n";
+        stackpointer--;
+        node.getRight().apply(this);
+        code += "\tgoto LabelIfControl"+labelCounter+"\n";
+        labelCounter++;
+    }
+
+    @Override
+    public void caseAClosedIfStatementAst(AClosedIfStatementAst node){
+        node.getLeft().apply(this);
+        code += "\tifeq LabelIfControl"+labelCounter+"\n";
+        stackpointer--;
+        node.getRight().apply(this);
+        code += "\tgoto LabelIfControl"+labelCounter+"\n";
+        labelCounter++;
+    }
+
+    @Override
+    public void caseAOpenIfElseStatementAst(AOpenIfElseStatementAst node){
+        node.getLeft().apply(this);
+        code += "\tifeq LabelIfElse"+labelCounter+"\n";
+        stackpointer--;
+        node.getMid().apply(this);
+        code += "\tgoto LabelIfElseEnd"+labelCounter+"\nLabelIfElse"+labelCounter+":\n";
+        node.getRight().apply(this);
+        code += "LabelIfElseEnd"+labelCounter+":\n";
+        labelCounter++;
+    }
+
+    @Override
+    public void caseACompareAst (ACompareAst node){
+        node.getLeft().apply(this);
+        node.getRight().apply(this);
+        code += "\tisub\n";
+        stackpointer--;
+        node.getMid().apply(this);
+        code += "\tbipush 0\n";
+        stackpointer++;
+        code += "\tgoto LabelCompare"+comparePointer+"\nLabelTrue"+comparePointer+":\n\tbipush 1\nLabelCompareEnd"+comparePointer+":\n";
+        stackpointer++;
+    }
 
 
 

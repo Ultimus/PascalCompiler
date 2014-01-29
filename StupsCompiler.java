@@ -9,7 +9,6 @@ import pascal.parser.*;
 import pascal.lexer.*;
 import pascal.node.*;
 import java.io.*;
-import pascal.src.*;
 
 public class StupsCompiler {
 

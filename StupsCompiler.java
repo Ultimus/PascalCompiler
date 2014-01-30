@@ -66,7 +66,7 @@ public class StupsCompiler {
 
     private static String typicalOutput(CodeGen codeGen, String filename){
         int size = codeGen.getSymbols().size()+1;
-        String output = ".bytecode 50.0\n.class public "+filename+"\n.super java/lang/Object\n.method public <init>()V\n\tlimit stack 1\n\t.limit locals 1\n\taload_0\n\tinvokespecial java/lang/Object/<init>()V\n\treturn\n.end method\n\t.method public static main([Ljava/lang/String;)V\n\t.limit stack "+codeGen.getStackpointer()+"\n\t.limit locals "+size+"\n"+codeGen.getCode()+"\treturn\n.end method\n";
+        String output = ".bytecode 50.0\n.class public "+filename+"\n.super java/lang/Object\n.method public <init>()V\n\t.limit stack 1\n\t.limit locals 1\n\taload_0\n\tinvokespecial java/lang/Object/<init>()V\n\treturn\n.end method\n\t.method public static main([Ljava/lang/String;)V\n\t.limit stack "+codeGen.getStackpointer()+"\n\t.limit locals "+size+"\n"+codeGen.getCode()+"\treturn\n.end method\n";
         return output; //its similar to the String we had in our example but with a real stack height and without the useless prints
     }
 

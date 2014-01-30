@@ -15,6 +15,7 @@ public class CodeGen extends DepthFirstAdapter{
     private int comparePointer;
     private int breakPointer;
     private int stackpointer = 1;
+    private String type;
 
     private HashMap<String, Integer> symbols = new HashMap<String, Integer>(); // saves the number for the variable
     private HashMap<String,String> types = new HashMap<String, String>();
@@ -43,7 +44,11 @@ public class CodeGen extends DepthFirstAdapter{
     public void caseAWritelnAst(AWritelnAst node){
         code += "\tgetstatic java/lang/System/out Ljava/io/PrintStream; \n";
         node.getAst().apply(this);
-        code += "\tinvokevirtual java/io/PrintStream/println()V\n";
+        String flag = "";
+        if(type.equals("I")) flag ="I";
+        else if (type.equals("Z")) flag = "Z";
+
+        code += "\tinvokevirtual java/io/PrintStream/println("+flag+")V\n";
         stackpointer++;
     }
 
@@ -52,34 +57,40 @@ public class CodeGen extends DepthFirstAdapter{
     public void outAPlusAst(APlusAst node){
         code += "\tiadd\n";
         stackpointer--;
+        type = "I";
     }
 
     @Override
     public void outAMinusAst(AMinusAst node){
         code += "\tisub\n";
         stackpointer--;
+        type = "I";
     }
 
     @Override
     public void outAMultAst(AMultAst node){
         code += "\timul\n";
         stackpointer--;
+        type = "I";
     }
 
     @Override
     public void outADivAst(ADivAst node){
         code += "\tidiv\n";
         stackpointer--;
+        type = "I";
     }
 
     @Override
     public void outAModAst(AModAst node){
         code += "\tirem\n";
+        type = "I";
     }
 
     @Override
     public void outAUnMinusAst(AUnMinusAst node){
         code += "\tineg\n";
+        type = "I";
     }
 
 
@@ -89,18 +100,21 @@ public class CodeGen extends DepthFirstAdapter{
     public void outAAndAst(AAndAst node){
         code += "\tiand\n";
         stackpointer--;
+        type = "Z";
     }
 
     @Override
     public void outAOrAst(AOrAst node){
         code += "\tior\n";
         stackpointer--;
+        type = "Z";
     }
 
     @Override
     public void outAXorAst(AXorAst node){
         code += "\tixor\n";
         stackpointer--;
+        type = "Z";
     }
 
     @Override
@@ -108,15 +122,17 @@ public class CodeGen extends DepthFirstAdapter{
         //crap... i need to put up a hell of a work for just this easy thing
         int temp = labelCounter++;
         code += "\tifeq LabelNot"+temp+"\n\tbipush 0\n\tgoto LabelNotEnd"+temp+"\nLabelNot"+temp+":\nbipush 1\nLabelNotEnd"+temp+":\n";
+        type = "Z";
     }
 
 
     //lets read a number
     @Override
     public void caseANumberAst(ANumberAst node){
-        int number = Integer.parseInt(node.getNumber().toString());
+        int number = Integer.parseInt(node.getNumber().toString().trim());
         code += "\tldc "+number+"\n";
         stackpointer++;
+        type = "I";
     }
 
     //lets read a boolean
@@ -124,12 +140,14 @@ public class CodeGen extends DepthFirstAdapter{
     public void caseATrueAst(ATrueAst node){
         code += "\tbipush 1\n";
         stackpointer++;
+        type = "Z";
     }
 
     @Override
     public void caseAFalseAst(AFalseAst node){
         code += "\tbipush 0\n";
         stackpointer++;
+        type = "Z";
     }
 
 

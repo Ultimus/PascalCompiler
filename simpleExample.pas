@@ -1,6 +1,6 @@
 program simpleExample;
-var a_ : boolean;
+var a_ : integer;
 begin
-a_ := true;
+a_ := 411;
 writeln(a_);
 end.

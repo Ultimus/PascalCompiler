@@ -570,35 +570,6 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAIfStatementAst(node);
     }
 
-    public void inACompareAst(ACompareAst node)
-    {
-        defaultIn(node);
-    }
-
-    public void outACompareAst(ACompareAst node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseACompareAst(ACompareAst node)
-    {
-        inACompareAst(node);
-        if(node.getLeft() != null)
-        {
-            node.getLeft().apply(this);
-        }
-        if(node.getMid() != null)
-        {
-            node.getMid().apply(this);
-        }
-        if(node.getRight() != null)
-        {
-            node.getRight().apply(this);
-        }
-        outACompareAst(node);
-    }
-
     public void inAEqualAst(AEqualAst node)
     {
         defaultIn(node);
@@ -723,6 +694,35 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getUnequal().apply(this);
         }
         outAUnequalAst(node);
+    }
+
+    public void inAComparisonAst(AComparisonAst node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAComparisonAst(AComparisonAst node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAComparisonAst(AComparisonAst node)
+    {
+        inAComparisonAst(node);
+        if(node.getLeft() != null)
+        {
+            node.getLeft().apply(this);
+        }
+        if(node.getMid() != null)
+        {
+            node.getMid().apply(this);
+        }
+        if(node.getRight() != null)
+        {
+            node.getRight().apply(this);
+        }
+        outAComparisonAst(node);
     }
 
     public void inAExprTopAst(AExprTopAst node)

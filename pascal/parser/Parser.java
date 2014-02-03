@@ -1283,10 +1283,12 @@ public class Parser
             // Block
         PAst pastNode2;
         PAst pastNode3;
+        PAst pastNode4;
         pastNode2 = (PAst)nodeArrayList3.get(0);
-        pastNode3 = (PAst)nodeArrayList1.get(0);
+        pastNode3 = (PAst)nodeArrayList2.get(0);
+        pastNode4 = (PAst)nodeArrayList1.get(0);
 
-        pastNode1 = new AExprTopAst(pastNode2, pastNode3);
+        pastNode1 = new AComparisonAst(pastNode2, pastNode3, pastNode4);
         }
 	nodeList.add(pastNode1);
         return nodeList;

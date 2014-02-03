@@ -213,7 +213,7 @@ public class TypeChecker extends DepthFirstAdapter {
     //main thing first
 
     @Override
-    public void caseACompareAst(ACompareAst node){
+    public void caseAComparisonAst(AComparisonAst node){
         node.getLeft().apply(this);
         String left = this.eoast;
         node.getRight().apply(this);
@@ -269,7 +269,6 @@ public class TypeChecker extends DepthFirstAdapter {
     @Override
     public void caseANotAst(ANotAst node){
         node.getAst().apply(this);
-        System.out.println("Eoast: "+ eoast+ "      Node:"+ node.toString());
 
         if (!eoast.equals("boolean")){
             System.out.println("ERROR: Not expects Boolean");

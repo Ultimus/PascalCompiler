@@ -144,7 +144,7 @@ Productions
 
   expr_top{-> ast} = 
 	     {single} expr {-> expr.ast} |
-	     {comparison} expr compare expr_top {->New ast.expr_top(expr_top.ast, expr.ast)}; 
+	     {comparison} expr compare expr_top {->New ast.comparison(expr_top.ast,compare.ast, expr.ast)}; 
 
   expr{-> ast}  = {or} expr or factor {->New ast.or(expr.ast, factor.ast)}| 
 	  {xor} expr xor factor {->New ast.xor(expr.ast, factor.ast)}| 
@@ -194,13 +194,13 @@ Abstract Syntax Tree
 	{block} ast |
 	{empty} |
 	{if_statement} ast |
-	{compare} [left]:ast [mid]:ast [right]:ast |
 	{equal} equal |
 	{less} less |
 	{greater} greater |
 	{greater_eq} greater_eq |
 	{less_eq} less_eq |
 	{unequal} unequal |
+	{comparison} [left]:ast [mid]: [right]:ast |
 	{expr_top} [left]:ast [right]:ast |   /*expr_top expr*/
 	{or} [left]:ast [right]:ast |  /*expr factor */
 	{xor} [left]:ast [right]:ast |

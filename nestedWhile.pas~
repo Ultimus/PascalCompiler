@@ -7,7 +7,6 @@ b:=25;
 writeln(a);
 while a < 100 do begin
 while (b = 25) do begin
-writeln(a);
 a:= a+1;
 writeln(a);
 end

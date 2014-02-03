@@ -213,12 +213,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseACompareAst(ACompareAst node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseAEqualAst(AEqualAst node)
     {
         defaultCase(node);
@@ -250,6 +244,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseAUnequalAst(AUnequalAst node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAComparisonAst(AComparisonAst node)
     {
         defaultCase(node);
     }

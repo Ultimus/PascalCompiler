@@ -1,0 +1,8 @@
+program emptyProgramm ;
+var a_a : integer;
+var b : integer;
+var c : boolean;
+begin
+
+end. 
+

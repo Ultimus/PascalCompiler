@@ -11,9 +11,9 @@ import java.util.HashMap;
 public class CodeGen extends DepthFirstAdapter{
 
     private String code = "";
-    private int labels;
-    private int comparePointer;
-    private int breakPointer;
+    private int labels = 0;
+    private int comparePointer = 0;
+    private int breakPointer = 0;
     private int stackpointer = 1;
     private String type;
 
@@ -225,25 +225,25 @@ public class CodeGen extends DepthFirstAdapter{
 
     @Override
     public void caseAOpenWhileStatementAst(AOpenWhileStatementAst node){
-        code += "LabelWhile"+labelCounter+":\n";
+        int temp = labelCounter++;
+        code += "LabelWhile"+temp+":\n";
         node.getLeft().apply(this);
-        code += "\tifeq LabelWhileControl"+labelCounter+"\n";
+        code += "\tifeq LabelWhileControl"+temp+"\n";
         node.getRight().apply(this);
-        code += "\tgoto LabelWhile"+labelCounter+"\nLabelWhileControl"+labelCounter+":\nLabelBreakEnd"+breakPointer+"\n";
+        code += "\tgoto LabelWhile"+temp+"\nLabelWhileControl"+temp+":\nLabelWhileEnd"+breakPointer+":\n";
         breakPointer++;
-        labelCounter++;
         stackpointer--;
     }
 
     @Override
     public void caseAClosedWhileStatementAst(AClosedWhileStatementAst node){
-        code += "LabelWhile"+labelCounter+":\n";
+        int temp = labelCounter++;
+        code += "LabelWhile"+temp+":\n";
         node.getLeft().apply(this);
-        code += "\tifeq LabelWhileControl"+labelCounter+"\n";
+        code += "\tifeq LabelWhileEnd"+temp+"\n";
         node.getRight().apply(this);
-        code += "\tgoto LabelWhile"+labelCounter+"\nLabelWhileControl"+labelCounter+":\nLabelBreakEnd"+breakPointer+"\n";
+        code += "\tgoto LabelWhile"+temp+"\nLabelWhileEnd"+breakPointer+":\n";
         breakPointer++;
-        labelCounter++;
         stackpointer--;
     }
 
@@ -280,13 +280,15 @@ public class CodeGen extends DepthFirstAdapter{
     }
 
     @Override
-    public void caseACompareAst (ACompareAst node){
+    public void caseAComparisonAst (AComparisonAst node){
+        int temp = 0;
         node.getLeft().apply(this);
         node.getRight().apply(this);
         code += "\tisub\n";
+        temp = comparePointer;
         node.getMid().apply(this);
-        code += "\tbipush 0\n";
-        code += "\tgoto LabelCompare"+comparePointer+"\nLabelTrue"+comparePointer+":\n\tbipush 1\nLabelCompareEnd"+comparePointer+":\n";
+
+        code += "\tbipush 0\n\tgoto LabelCompareEnd"+temp+"\nLabelTrue"+temp+":\n\tbipush 1\nLabelCompareEnd"+temp+":\n";
         stackpointer+=2;
     }
 

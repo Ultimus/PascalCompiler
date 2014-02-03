@@ -52,6 +52,20 @@ public class StupsCompiler {
                writer.close();
 
            }
+           else if (args[0].equals("-liveness")){
+               filename = args[1];
+               File file = new File(filename);
+               PushbackReader reader = new PushbackReader(new FileReader(file));
+               Lexer lexer = new Lexer(reader);
+               Parser parser = new Parser(lexer);
+               Start tree = parser.parse();
+               TypeChecker typeChecker = new TypeChecker();
+               tree.apply(typeChecker);
+               Liveness liveness = new Liveness();
+               tree.apply(liveness);
+               liveness.getLiveness();
+
+           }
            else System.out.println(" Error: Wrong usage of StupsCompiler.\n Usage:  java StupsCompiler -compile <Filename>");
 		  
 		  

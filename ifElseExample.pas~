@@ -6,6 +6,7 @@ begin
 a_a := 3;
 b := 23;
 c := true;
+c := a_a < 5;
 while true do begin
 if ((a_a < 5 or a_a = 3) and (b > 20)) then
 if (b = 2) then b := 5 else a_a:=8;

@@ -1,0 +1,53 @@
+.bytecode 50.0
+.class public nestedWhile
+.super java/lang/Object
+.method public <init>()V
+	.limit stack 1
+	.limit locals 1
+	aload_0
+	invokespecial java/lang/Object/<init>()V
+	return
+.end method
+	.method public static main([Ljava/lang/String;)V
+	.limit stack 5
+	.limit locals 3
+	ldc 8
+	istore 1
+	ldc 25
+	istore 2
+LabelWhile0:
+	ldc 100
+	iload 1
+	isub
+	ifeq LabelTrue0
+	bipush 0
+	goto LabelCompare1
+LabelTrue0:
+	bipush 1
+LabelCompareEnd1:
+	ifeq LabelWhileEnd0
+LabelWhile1:
+	ldc 25
+	iload 2
+	isub
+	ifeq LabelTrue1
+	bipush 0
+	goto LabelCompare2
+LabelTrue1:
+	bipush 1
+LabelCompareEnd2:
+	ifeq LabelWhileEnd1
+	iload 1
+	ldc 1
+	iadd
+	istore 1
+	iload 2
+	ldc 1
+	isub
+	istore 2
+	goto LabelWhile1
+LabelWhileEnd0:
+	goto LabelWhile0
+LabelWhileEnd1:
+	return
+.end method

@@ -115,7 +115,7 @@ public class TypeChecker extends DepthFirstAdapter {
         }
 
         //same for boolean
-        if(expr.equals("AEqualAst") || expr.equals("AUnequalAst") || expr.equals("AXorAst") || expr.equals("AAndAst") || expr.equals("AOrAst") || expr.equals("ANotAst")){
+        if(expr.equals("AEqualAst") || expr.equals("AUnequalAst") || expr.equals("AXorAst") || expr.equals("AAndAst") || expr.equals("AOrAst") || expr.equals("ANotAst") || expr.equals("AComparisonAst")){
             if(!type.equals("boolean")){
                 System.out.println("ERROR Boolean was expected for " + identifier);
                 System.exit(1);

@@ -47,7 +47,6 @@ public class CodeGen extends DepthFirstAdapter{
         String flag = "";
         if(type.equals("I")) flag ="I";
         else if (type.equals("Z")) flag = "Z";
-
         code += "\tinvokevirtual java/io/PrintStream/println("+flag+")V\n";
         stackpointer++;
     }
@@ -157,36 +156,42 @@ public class CodeGen extends DepthFirstAdapter{
     public void outAGreaterAst(AGreaterAst node){
         code += "\tifgt LabelTrue"+(comparePointer++)+"\n";
         stackpointer--;
+        type = "Z";
     }
 
     @Override
     public void outAGreaterEqAst(AGreaterEqAst node){
         code += "\tifge LabelTrue"+(comparePointer++)+"\n";
         stackpointer--;
+        type = "Z";
     }
 
     @Override
     public void outALessAst(ALessAst node){
         code += "\tiflt LabelTrue"+(comparePointer++)+"\n";
         stackpointer--;
+        type = "Z";
     }
 
     @Override
     public void outALessEqAst(ALessEqAst node){
         code += "\tifle LabelTrue"+(comparePointer++)+"\n";
         stackpointer--;
+        type = "Z";
     }
 
     @Override
     public void outAEqualAst(AEqualAst node){
         code += "\tifeq LabelTrue" +(comparePointer++)+"\n";
         stackpointer--;
+        type = "Z";
     }
 
     @Override
     public void outAUnequalAst(AUnequalAst node){
         code += "\tifne LabelTrue"+(comparePointer++)+"\n";
         stackpointer--;
+        type = "Z";
     }
 
 
@@ -223,59 +228,62 @@ public class CodeGen extends DepthFirstAdapter{
         code += "\tgoto LabelBreakEnd"+breakPointer+"\n";
     }
 
+
+    //thanks to my stupidity, i may now use a new variable to save the right labelcounter, because i was not aware how
+    //the tree is traversed
     @Override
     public void caseAOpenWhileStatementAst(AOpenWhileStatementAst node){
-        int temp = labelCounter++;
-        code += "LabelWhile"+temp+":\n";
+        int actualLabel = labelCounter++;
+        code += "LabelWhile"+actualLabel+":\n";
         node.getLeft().apply(this);
-        code += "\tifeq LabelWhileControl"+temp+"\n";
+        code += "\tifeq LabelWhileControl"+actualLabel+"\n";
         node.getRight().apply(this);
-        code += "\tgoto LabelWhile"+temp+"\nLabelWhileControl"+temp+":\nLabelWhileEnd"+breakPointer+":\n";
+        code += "\tgoto LabelWhile"+actualLabel+"\nLabelWhileControl"+actualLabel+":\nLabelWhileEnd"+breakPointer+":\n";
         breakPointer++;
         stackpointer--;
     }
 
     @Override
     public void caseAClosedWhileStatementAst(AClosedWhileStatementAst node){
-        int temp = labelCounter++;
-        code += "LabelWhile"+temp+":\n";
+        int actualLabel = labelCounter++;
+        code += "LabelWhile"+actualLabel+":\n";
         node.getLeft().apply(this);
-        code += "\tifeq LabelWhileEnd"+temp+"\n";
+        code += "\tifeq LabelWhileEnd"+actualLabel+"\n";
         node.getRight().apply(this);
-        code += "\tgoto LabelWhile"+temp+"\nLabelWhileEnd"+breakPointer+":\n";
+        code += "\tgoto LabelWhile"+actualLabel+"\nLabelWhileEnd"+breakPointer+":\n";
         breakPointer++;
         stackpointer--;
     }
 
     @Override
     public void caseAOpenIfStatementAst (AOpenIfStatementAst node){
+        int actualLabel = labelCounter++;
         node.getLeft().apply(this);
-        code += "\tifeq LabelIfControl"+labelCounter+"\n";
+        code += "\tifeq LabelOpenIf"+actualLabel+"\n";
         node.getRight().apply(this);
-        code += "\tgoto LabelIfControl"+labelCounter+"\n";
-        labelCounter++;
+        code += "LabelOpenIf"+actualLabel+":\n";
         stackpointer--;
     }
 
     @Override
     public void caseAClosedIfStatementAst(AClosedIfStatementAst node){
+        int actualLabel = labelCounter++;
         node.getLeft().apply(this);
-        code += "\tifeq LabelIfControl"+labelCounter+"\n";
+        code += "\tifeq LabelClosedIf"+actualLabel+"\n";
         node.getRight().apply(this);
-        code += "\tgoto LabelIfControl"+labelCounter+"\n";
-        labelCounter++;
+        code += "LabelClosedIf"+actualLabel+":\n";
         stackpointer--;
     }
 
     @Override
     public void caseAOpenIfElseStatementAst(AOpenIfElseStatementAst node){
+        int actualLabel = labelCounter++;
         node.getLeft().apply(this);
-        code += "\tifeq LabelIfElse"+labelCounter+"\n";
+        code += "\tifeq LabelIfElse"+actualLabel+"\n";
         node.getMid().apply(this);
-        code += "\tgoto LabelIfElseEnd"+labelCounter+"\nLabelIfElse"+labelCounter+":\n";
+        code += "\tgoto LabelIfElseEnd"+actualLabel+"\nLabelIfElse"+actualLabel+":\n";
         node.getRight().apply(this);
-        code += "LabelIfElseEnd"+labelCounter+":\n";
-        labelCounter++;
+        code += "LabelIfElseEnd"+actualLabel+":\n";
         stackpointer--;
     }
 

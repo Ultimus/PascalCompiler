@@ -123,7 +123,7 @@ public class Liveness extends DepthFirstAdapter{
 
     public Liveness(){
         blockCounter = 0;
-        blocks = new FlowGraph("block" + blockCounter);
+        blocks = new FlowGraph(blockCounter+". block:");
 
     }
 
@@ -135,7 +135,7 @@ public class Liveness extends DepthFirstAdapter{
         while (changed){
             changed = false;
             for (int i = 0; i <= blockCounter; i++){
-                current = blocks.getBlockName("block"+i);
+                current = blocks.getBlockName(i+". block:");
                 current.setIn();
                 if(current.getFlag()) changed = true;
 
@@ -146,17 +146,17 @@ public class Liveness extends DepthFirstAdapter{
 
         int registerNumber = 0;
         for (int i = 0; i < blockCounter; i++){
-            current = blocks.getBlockName("block"+i);
+            current = blocks.getBlockName(i+". block:");
             System.out.println(current.getName()+ ":\nIn: " +current.in.toString()+"\nout: "+ current.out.toString());
             if (registerNumber < current.out.size()) registerNumber= current.out.size();
         }
-        System.out.println(registerNumber+" registers are needed");
+        System.out.println("Registers: "+registerNumber);
     }
 
     //why not use the sablecc classes? They work here too :D
      @Override
     public void caseAAssignmentAst (AAssignmentAst node){
-        FlowGraph current = blocks.getBlockName("block"+blockCounter);
+        FlowGraph current = blocks.getBlockName(blockCounter+". block:");
         String id = node.getIdentifier().toString().toLowerCase().replaceAll("\\s+", "");
         if (! current.def.contains(id)) current.def.add(id);
         node.getAst().apply(this);
@@ -164,93 +164,93 @@ public class Liveness extends DepthFirstAdapter{
 
     @Override
     public void caseAIdentifierAst(AIdentifierAst node){
-        FlowGraph current = blocks.getBlockName("block"+blockCounter);
+        FlowGraph current = blocks.getBlockName(blockCounter+". block:");
         String id = node.getIdentifier().toString().toLowerCase().replace("\\s+","");
         if(! current.use.contains(id)) current.use.add(id);
     }
 
     @Override
     public void caseAClosedIfStatementAst(AClosedIfStatementAst node){
-        FlowGraph current = blocks.getBlockName("block"+blockCounter);
+        FlowGraph current = blocks.getBlockName(blockCounter+". block:");
 
         if(!(current.use.isEmpty() && current.def.isEmpty())) blockCounter++;
 
-        FlowGraph leftBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph leftBlock = new FlowGraph(blockCounter+". block:");
         current.add(leftBlock);
         node.getLeft().apply(this);
         blockCounter++;
 
-        FlowGraph rightBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph rightBlock = new FlowGraph(blockCounter+". block:");
         current.add(rightBlock);
         blockCounter++;
 
-        FlowGraph endBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph endBlock = new FlowGraph(blockCounter+". block:");
         current.add(endBlock);
         rightBlock.add(endBlock);
     }
 
     @Override
     public void caseAOpenIfStatementAst(AOpenIfStatementAst node){
-        FlowGraph current = blocks.getBlockName("block"+blockCounter);
+        FlowGraph current = blocks.getBlockName(blockCounter+". block:");
 
         if(!(current.use.isEmpty() && current.def.isEmpty())) blockCounter++;
 
-        FlowGraph leftBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph leftBlock = new FlowGraph(blockCounter+". block:");
         current.add(leftBlock);
         node.getLeft().apply(this);
         blockCounter++;
 
-        FlowGraph rightBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph rightBlock = new FlowGraph(blockCounter+". block:");
         current.add(rightBlock);
         blockCounter++;
 
-        FlowGraph endBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph endBlock = new FlowGraph(blockCounter+". block:");
         current.add(endBlock);
         rightBlock.add(endBlock);
     }
 
     @Override
     public void caseAOpenIfElseStatementAst(AOpenIfElseStatementAst node){
-        FlowGraph current = blocks.getBlockName("block"+blockCounter);
+        FlowGraph current = blocks.getBlockName(blockCounter+". block:");
 
         if (!(current.use.isEmpty() && current.def.isEmpty())) blockCounter++;
 
-        FlowGraph leftBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph leftBlock = new FlowGraph(blockCounter+". block:");
         current.add(leftBlock);
         node.getLeft().apply(this);
         blockCounter++;
 
-        FlowGraph midBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph midBlock = new FlowGraph(blockCounter+". block:");
         current.add(midBlock);
         node.getMid().apply(this);
         blockCounter++;
 
-        FlowGraph rightBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph rightBlock = new FlowGraph(blockCounter+". block:");
         current.add(rightBlock);
         node.getRight().apply(this);
         blockCounter++;
 
-        FlowGraph endBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph endBlock = new FlowGraph(blockCounter+". block:");
         midBlock.add(endBlock);
         rightBlock.add(endBlock);
     }
 
     @Override
     public void caseAOpenWhileStatementAst (AOpenWhileStatementAst node){
-        FlowGraph current = blocks.getBlockName("block"+blockCounter);
+        FlowGraph current = blocks.getBlockName(blockCounter+". block:");
         if (! (current.use.isEmpty() && current.def.isEmpty()))blockCounter++;
 
-        FlowGraph leftBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph leftBlock = new FlowGraph(blockCounter+". block:");
         current.add(leftBlock);
         node.getLeft().apply(this);
         blockCounter++;
 
-        FlowGraph rightBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph rightBlock = new FlowGraph(blockCounter+". block:");
         current.add(rightBlock);
         node.getRight().apply(this);
         blockCounter++;
 
-        FlowGraph endBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph endBlock = new FlowGraph(blockCounter+". block:");
         current.add(endBlock);
 
         rightBlock.add(endBlock);
@@ -258,20 +258,20 @@ public class Liveness extends DepthFirstAdapter{
 
     @Override
     public void caseAClosedWhileStatementAst(AClosedWhileStatementAst node){
-        FlowGraph current = blocks.getBlockName("block"+blockCounter);
+        FlowGraph current = blocks.getBlockName(blockCounter+". block");
         if (! (current.use.isEmpty() && current.def.isEmpty()))blockCounter++;
 
-        FlowGraph leftBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph leftBlock = new FlowGraph(blockCounter+". block:");
         current.add(leftBlock);
         node.getLeft().apply(this);
         blockCounter++;
 
-        FlowGraph rightBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph rightBlock = new FlowGraph(blockCounter+". block:");
         current.add(rightBlock);
         node.getRight().apply(this);
         blockCounter++;
 
-        FlowGraph endBlock = new FlowGraph("block"+blockCounter);
+        FlowGraph endBlock = new FlowGraph(blockCounter+". block:");
         current.add(endBlock);
 
         rightBlock.add(endBlock);

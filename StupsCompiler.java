@@ -36,8 +36,8 @@ public class StupsCompiler {
                Lexer lexer = new Lexer(reader);
                Parser parser = new Parser(lexer);
                Start tree = parser.parse();
-               ASTPrinter printer = new ASTPrinter();
-               tree.apply(printer);
+               //ASTPrinter printer = new ASTPrinter();
+               //tree.apply(printer);
                TypeChecker typeChecker = new TypeChecker();
                tree.apply(typeChecker);
                CodeGen codeGen = new CodeGen(typeChecker.getSymbols());

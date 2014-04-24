@@ -11,7 +11,6 @@ import java.util.HashMap;
 public class CodeGen extends DepthFirstAdapter{
 
     private String code = "";
-    private int labels = 0;
     private int comparePointer = 0;
     private int breakPointer = 0;
     private int stackpointer = 1;
@@ -119,8 +118,8 @@ public class CodeGen extends DepthFirstAdapter{
     @Override
     public void outANotAst(ANotAst node){
         //crap... i need to put up a hell of a work for just this easy thing
-        int temp = labelCounter++;
-        code += "\tifeq LabelNot"+temp+"\n\tbipush 0\n\tgoto LabelNotEnd"+temp+"\nLabelNot"+temp+":\nbipush 1\nLabelNotEnd"+temp+":\n";
+        int actualLabel = labelCounter++;
+        code += "\tifeq LabelNot"+actualLabel+"\n\tbipush 0\n\tgoto LabelNotEnd"+actualLabel+"\nLabelNot"+actualLabel+":\nbipush 1\nLabelNotEnd"+actualLabel+":\n";
         type = "Z";
     }
 

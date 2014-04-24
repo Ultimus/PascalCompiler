@@ -42,7 +42,7 @@ LabelCompareEnd1:
 	ifeq LabelWhileEnd1
 	getstatic java/lang/System/out Ljava/io/PrintStream; 
 	iload 1
-	invokevirtual java/io/PrintStream/println(I)V
+	invokevirtual java/io/PrintStream/println(Z)V
 	iload 1
 	ldc 1
 	iadd
